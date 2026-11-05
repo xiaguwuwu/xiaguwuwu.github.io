@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>免费排队预计时间｜陈鹏飞</title>
+<meta name="description" content="前两次修复都在改显示方式，真正的问题是第一次给出的时间就偏乐观。改成保守区间后，承诺达成率月包 92%、年包 100%。">
+<script>/* 从深色版点进来就用深色（首页和深色版会记下访客在看哪一版） */try{if(localStorage.getItem('resume-theme')==='dark')document.documentElement.classList.add('dark')}catch(e){}</script>
+<link rel="stylesheet" href="../shared/base.css?v=23">
+<link rel="stylesheet" href="../shared/case.css?v=1">
+</head>
+<body>
+<header class="top"><div class="wrap">
+  <a class="brand" href="../index.html" aria-label="回到首页"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M14.6 6.2c.4-2.9 2.9-4.3 4.3-3.3-1.4.5-2 1.9-1.5 3.3z"/><ellipse cx="16" cy="18" rx="10.5" ry="11.5"/><circle class="b-eye" cx="12.3" cy="15.6" r="2.1"/><circle class="b-eye" cx="19.7" cy="15.6" r="2.1"/><path class="b-beak" d="M14.1 19.6h3.8l-1.9 2.5z"/></svg></a><span class="sep" aria-hidden="true"></span>
+  <nav aria-label="页面导航"><a class="on" href="../index.html#projects">项目</a><a href="../index.html#works">作品</a><a href="../index.html#exp-sec">经历</a></nav>
+  <a class="top-cta" href="../index.html#apply">联系我<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7"/><path d="M8 7h9v9"/></svg></a></div></header>
+<main class="case wrap">
+  <a class="back" href="../index.html#projects"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>返回项目列表</a>
+  <h1>免费排队预计时间</h1>
+  <dl class="meta"><div><dt>产品</dt><dd>VerseIn</dd></div><div><dt>角色</dt><dd>产品负责人</dd></div><div><dt>时间</dt><dd>2026.09 – 2026.10</dd></div></dl>
+  <section><h2>项目</h2><p>订阅用户可以免费生成视频，但要排队。放行按每日预算节流，并且用得少的人优先，所以排队不是先来先到。</p><div class="tbl"><table><thead><tr><th>版本</th><th>改动</th><th>结果</th></tr></thead><tbody><tr><td>第一版</td><td>显示「前面还有 N 个」</td><td>后来的人合法插队，数字会涨，用户说「这是骗局」</td></tr><tr><td>第二版</td><td>去掉人数，剩余时间只减不增</td><td>「预计 5 小时，5 小时后还剩 1 小时」</td></tr></tbody></table></div></section>
+  <section><h2>过程</h2><ul><li><b>补数据</b>：原看板只统计放行成功的任务，放弃的人不在分母里。先补埋点：承诺时间、实际放行时间、离开队列的时间和去向。</li><li><b>定位</b>：拉一周 692 条放行记录对比承诺和实际。实际等待的 p90 是承诺的 3.1 倍，30% 的任务晚 1 小时以上；改用积分的用户里 85% 在看到预计时间后 5 分钟内做了决定。</li><li><b>参考</b>：看了 7 个产品。等待在分钟级的都不给时间，显示名次的都会出事，给数字的话偏长比偏短安全。</li><li><b>方案</b>：只显示区间，上限按 90 分位校准，首次显示后只收窄不变长；超时明说并给出继续等或改用积分；提交前就预告区间。</li></ul></section>
+  <section><h2>结果</h2><ul class="result"><li>上线后区间上限达成率：月包 <b>92%</b>，年包 <b>100%</b>。</li><li>展示只能减少投诉，缩短等待要靠调整预算或把高成本模型移出免费通道，这两条同时提给了业务方。</li></ul></section>
+  <nav class="pager" aria-label="翻页"><a href="pricing-unlimited.html"><span>上一个</span>定价与订阅权益</a><a href="growth-landing.html"><span>下一个</span>投放落地页与新人转化</a></nav>
+</main>
+<script>
+// 深色时，回首页的链接都指向深色版；滚动后顶栏出现底线
+(function(){
+  if(document.documentElement.classList.contains('dark')) document.querySelectorAll('a[href^="../index.html"]').forEach(function(a){ a.setAttribute('href', a.getAttribute('href').replace('../index.html', '../dark/index.html')); });
+  var top = document.querySelector('.top'), f = function(){ top.classList.toggle('stuck', scrollY > 8); };
+  addEventListener('scroll', f, {passive: true}); f();
+})();
+</script>
+</body>
+</html>

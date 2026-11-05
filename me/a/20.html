@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>研三｜我不怀念过去｜陈鹏飞</title>
+<link rel="stylesheet" href="../me.css?v=3">
+</head>
+<body class="read">
+<header class="bar"><a class="mark" href="../" aria-label="回到个人主页"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M3 15.5 29 4l-8 24-5.5-9.5z"/><path class="f" d="M15.5 18.5 29 4"/></svg></a><span class="sep"></span><a href="./">全部文章</a></header>
+<main class="paper">
+  <p class="kicker"></p>
+  <h1>研三｜我不怀念过去</h1>
+  <p class="tags"><span>自我</span><span>随笔</span></p>
+  <article class="prose"><p>我可能跟很多人都不一样，我一点都不怀念过去，我也更不想回到过去。</p>
+<p>尽管现在的生活时常使我感到劳累，但至少我能感受到极强的掌控感。现在不管是痛苦也好，难过也罢，都是我自己选的，我自己甘愿承受。我可以完全按照自己的意愿去布置自己的生活。</p>
+<p>在与师弟进行就业辅导时，他对我说，师兄，我对未来的实习充满恐惧。我当时的回答是，实习意味着你自己有了一定的经济能力，你会去到一个新的环境、认识新的人，你会有一间你可以自己布置的房间。你可以去过一种与现在完全不同的生活，我觉得这是令人兴奋的。</p>
+<p>是的，这就是我最真实的想法。一直推动我前进的就是未来，未来就算再糟糕，也远远比过去好多了。</p>
+<p>我不想再回到那阴暗的房间，一个人孤独过夜。我不想再看到那吵架的画面，一个人不知所措。我不想要再在变动的家庭环境里不停游走，生活在动荡的生活里。不想无端被打，无故被骂。我不想要继续走在阴暗里，接受无端的指责和评价。</p>
+<p>我不想要只会哭泣。或者说，我不想要不被允许哭泣。</p>
+<p>时间在推进的过程中，自由越来越靠近我。原来世界有那么大。在过去，那几个加起来不到一百平的房子却深深限制了我的认知。那些遥不可及的事情，居然真的在某个时刻，垂青了我。</p>
+<p>我所做的每一个选择，都在冥冥之中，指引我去向更广阔的未来。</p>
+<p>可能正是因为什么都没拥有过，所以不管什么事情出现在我生命中，我都觉得是命运的馈赠。也正是因为什么都没拥有过，我也没有什么好失去的，能短暂相逢已是万幸。</p>
+<p>经历过疫情三年，我更明白，“稳定”只是一个伪命题，“无序”才是人生的主旋律。所以，我现在更重视体验。</p>
+<p>我慢慢开始学会享受这转瞬即逝的当下，建构起微小的幸福和触手可及的附近。</p></article>
+  <nav class="pn"><a class="pv" href="19.html"><span>较新</span>研三｜秋招</a><span></span></nav>
+</main>
+<script>
+// 从主页的引文点进来时（#q=原话），高亮那一句并滚过去
+(function(){
+  var m = location.hash.match(/^#q=(.+)$/); if(!m) return;
+  var q = decodeURIComponent(m[1]), root = document.querySelector('.prose'), w = document.createTreeWalker(root, NodeFilter.SHOW_TEXT), nodes = [], text = '', n;
+  while((n = w.nextNode())){ nodes.push([n, text.length]); text += n.nodeValue; }
+  var i = text.indexOf(q); if(i < 0) return;
+  var at = function(k){ for(var j = nodes.length - 1; j >= 0; j--) if(nodes[j][1] <= k) return [nodes[j][0], k - nodes[j][1]]; };
+  var a = at(i), b = at(i + q.length - 1), r = document.createRange(); r.setStart(a[0], a[1]); r.setEnd(b[0], b[1] + 1);
+  if(window.CSS && CSS.highlights && window.Highlight) CSS.highlights.set('q', new Highlight(r));
+  else if(a[0] === b[0]){ var mk = document.createElement('mark'); r.surroundContents(mk); }
+  var y = r.getBoundingClientRect().top + scrollY - innerHeight * .35;
+  setTimeout(function(){ scrollTo({top: y, behavior: 'smooth'}); }, 150);
+})();
+</script>
+</body>
+</html>

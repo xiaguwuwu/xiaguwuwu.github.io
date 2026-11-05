@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>陈鹏飞｜AI 产品经理</title>
+<link rel="stylesheet" href="shared/base.css?v=23">
+<style>
+/* 版本 A：产品规格书。白底、墨黑、信号橙；参考 Kokonut UI：思源黑体 600 紧字距，等宽字体做编号和注释，细线网格；点阵坐标纸是招牌互动。 */
+@font-face{font-family:"SansSemi";src:url(assets/fonts/noto-sans-sc-600.woff2?v=2) format("woff2");font-weight:600;font-display:swap}
+@font-face{font-family:"JBMono";src:url(assets/fonts/jetbrains-mono.woff2?v=3) format("woff2");font-weight:100 800;font-display:swap}
+:root{
+  --hl-line:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 10' preserveAspectRatio='none'%3E%3Cpath d='M1 6.8C18 3.6 38 8.2 58 5.6S88 4.2 99 6.4' fill='none' stroke='%23ff4f00' stroke-width='2.6' stroke-linecap='round' vector-effect='non-scaling-stroke'/%3E%3C/svg%3E");
+  --bg:#fff; --fg:#09090b; --text:#3f3f46; --muted:#71717a; --line:#e4e4e7; --soft:#f5f5f4; --panel:#fff;
+  --accent:#ff4f00; --on-accent:#fff;
+  --font-d:"SansSemi","PingFang SC","Microsoft YaHei",sans-serif; --font-m:"JBMono",ui-monospace,Menlo,monospace;
+}
+.hero{position:relative;padding:40px 0 0;overflow:hidden}
+#grid{position:absolute;inset:0;width:100%;height:100%;display:block;cursor:crosshair}
+.hero .wrap{position:relative;pointer-events:none}
+.hero .wrap a,.hero .wrap button,.hero .wrap .reach{pointer-events:auto}
+h1.name{font-family:var(--font-d);font-weight:600;font-size:clamp(56px,8.6vw,112px);line-height:1.02;letter-spacing:-.045em;color:var(--fg)}
+h1.name span{display:block;color:#a1a1aa}
+
+#idrow .avatar,#idrow .nm{display:none}
+#idrow{margin-top:28px}
+#idrow .reach{margin-left:0}
+.facts{margin-bottom:48px}
+#grid{-webkit-mask-image:linear-gradient(#000 55%,transparent);mask-image:linear-gradient(#000 55%,transparent)}
+.sec-h h2 .no,.wb-h .no{display:block;font-family:var(--font-m);font-size:12px;letter-spacing:0;color:var(--muted);font-weight:400;margin-bottom:10px}
+.wb-h{display:flex;align-items:baseline;justify-content:space-between;margin:8px 0 18px}
+.wb-h h2{font-family:var(--font-d);font-weight:600;font-size:40px;letter-spacing:-.02em}
+.wb-h p{color:var(--muted);font-size:15px}
+.sec-h h2{font-weight:600;font-size:40px;letter-spacing:-.02em}.pj-t,.out h3,.sheet h3,.page h3{font-family:var(--font-b);font-weight:500}
+.play .o-steps .ck{color:var(--accent)}
+.hist[aria-pressed=true]{border-color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent)}
+.pj-h[aria-expanded=true] .pj-x{color:var(--accent)}
+.plist{border-top-color:var(--fg)}
+:root{--dot:var(--accent)}
+/* 橙色只留给图表重点、选中态和吉祥物 */
+.mail.primary{background:var(--fg);border-color:var(--fg)}
+.mail.primary a{color:var(--bg)}
+.mail.primary .copy{color:color-mix(in srgb,var(--bg) 60%,transparent);border-left-color:color-mix(in srgb,var(--bg) 22%,transparent)}
+.o-id{color:var(--muted)}
+.sprog{background:var(--fg)}
+
+.shelf{--shelf:#0b0b0b}
+.sp-r{color:#ffb08a}
+</style>
+</head>
+<body>
+<header class="top"><div class="wrap">
+  <a class="brand" href="#top" aria-label="回到顶部"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M14.6 6.2c.4-2.9 2.9-4.3 4.3-3.3-1.4.5-2 1.9-1.5 3.3z"/><ellipse cx="16" cy="18" rx="10.5" ry="11.5"/><circle class="b-eye" cx="12.3" cy="15.6" r="2.1"/><circle class="b-eye" cx="19.7" cy="15.6" r="2.1"/><path class="b-beak" d="M14.1 19.6h3.8l-1.9 2.5z"/></svg></a><span class="sep" aria-hidden="true"></span>
+  <nav aria-label="页面导航"><a href="#wb">工作台</a><a href="#projects">项目</a><a href="#works">作品</a><a href="#exp-sec">经历</a></nav>
+  <a class="theme-t" href="dark/" aria-label="切换到深色版" title="切换到深色版"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.6A8.2 8.2 0 0 1 9.4 4a8.2 8.2 0 1 0 10.6 10.6z"/></svg></a>
+  <a class="top-cta" href="#apply">联系我<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7"/><path d="M8 7h9v9"/></svg></a></div></header>
+
+<main id="top">
+  <section class="hero">
+    <canvas id="grid" aria-hidden="true"></canvas>
+    <div class="wrap">
+      <h1 class="name"><a class="me-link" href="me/">陈鹏飞</a><span>产品经理</span></h1>
+      <div class="id" id="idrow"></div>
+      <ul class="facts" id="facts"></ul>
+    </div>
+  </section>
+
+  <div class="wrap">
+    <div class="sec-h wb-sec" id="wb"><h2><span class="no">01</span>工作台</h2></div>
+    <div class="studio" id="studio"></div>
+    <div id="sections"></div>
+  </div>
+</main>
+
+<script>window.BASE = '';</script>
+<script src="data/works.js?v=3"></script>
+<script src="data/projects.js?v=10"></script>
+<script src="shared/shell.js?v=15"></script>
+<script src="shared/core.js?v=15"></script>
+<script src="shared/extras.js?v=18"></script>
+<script>
+// 章节编号
+[['projects','02'],['works','03'],['exp-sec','04']].forEach(function(x){ var h = document.querySelector('#' + x[0] + ' h2'); if(h) h.insertAdjacentHTML('afterbegin', '<span class="no">' + x[1] + '</span>'); });
+
+// 点阵坐标纸：光标附近的点被推开、变深；点击处荡开一圈橙色波纹
+(function(){
+  var c = document.getElementById('grid'), ctx = c.getContext('2d'), hero = c.parentNode;
+  var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var dpr = Math.min(2, window.devicePixelRatio || 1), W, H, G = 22, pts = [], mouse = {x: -999, y: -999}, waves = [], raf = 0, lastMove = 0;
+  function size(){
+    var r = hero.getBoundingClientRect(); W = r.width; H = r.height;
+    c.width = W * dpr; c.height = H * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    pts = []; for(var y = G / 2; y < H; y += G) for(var x = G / 2; x < W; x += G) pts.push(x, y);
+    draw(performance.now());
+  }
+  function draw(t){
+    ctx.clearRect(0, 0, W, H);
+    for(var i = 0; i < pts.length; i += 2){
+      var x = pts[i], y = pts[i + 1], dx = x - mouse.x, dy = y - mouse.y, d = Math.sqrt(dx * dx + dy * dy), ox = 0, oy = 0, a = .22, r = 1.1, hot = 0;
+      if(d < 140){ var k = 1 - d / 140; ox += dx / (d || 1) * k * 10; oy += dy / (d || 1) * k * 10; a += k * .55; r += k * 1.1; }
+      for(var j = 0; j < waves.length; j++){
+        var w = waves[j], wx = x - w.x, wy = y - w.y, wd = Math.sqrt(wx * wx + wy * wy), ring = w.r - wd;
+        if(ring > -26 && ring < 26){ var s = Math.cos(ring / 26 * Math.PI / 2) * w.life; ox += wx / (wd || 1) * s * 7; oy += wy / (wd || 1) * s * 7; r += s * 1.6; hot = Math.max(hot, s); }
+      }
+      ctx.beginPath(); ctx.arc(x + ox, y + oy, r, 0, 6.2832);
+      ctx.fillStyle = hot > .05 ? 'rgba(255,79,0,' + Math.min(1, .3 + hot) + ')' : 'rgba(11,11,11,' + Math.min(.85, a) + ')';
+      ctx.fill();
+    }
+  }
+  function loop(t){
+    waves.forEach(function(w){ w.r += 6; w.life = Math.max(0, 1 - w.r / w.max); });
+    waves = waves.filter(function(w){ return w.life > 0; });
+    draw(t);
+    if(waves.length || t - lastMove < 600) raf = requestAnimationFrame(loop); else raf = 0;
+  }
+  function kick(){ if(!raf && !reduce) raf = requestAnimationFrame(loop); }
+  hero.addEventListener('pointermove', function(e){ var r = c.getBoundingClientRect(); mouse.x = e.clientX - r.left; mouse.y = e.clientY - r.top; lastMove = performance.now(); if(reduce) draw(0); else kick(); });
+  hero.addEventListener('pointerleave', function(){ mouse.x = mouse.y = -999; lastMove = performance.now(); kick(); });
+  hero.addEventListener('pointerdown', function(e){ if(e.target.closest('a,button')) return; var r = c.getBoundingClientRect(); waves.push({x: e.clientX - r.left, y: e.clientY - r.top, r: 0, max: Math.max(W, H) * .7, life: 1}); kick(); });
+  new ResizeObserver(size).observe(hero);
+  // 首次进入时从名字左下角荡开一圈，提示可以互动
+  setTimeout(function(){ if(reduce) return; waves.push({x: 80, y: H * .45, r: 0, max: Math.max(W, H) * .7, life: 1}); kick(); }, 500);
+})();
+</script>
+</body>
+</html>

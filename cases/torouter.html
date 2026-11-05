@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ToRouter 激活与留存方案｜陈鹏飞</title>
+<meta name="description" content="为大模型 API 网关设计激活到增长的四层方案，并用 AI 编程上线官网需求。">
+<script>/* 从深色版点进来就用深色（首页和深色版会记下访客在看哪一版） */try{if(localStorage.getItem('resume-theme')==='dark')document.documentElement.classList.add('dark')}catch(e){}</script>
+<link rel="stylesheet" href="../shared/base.css?v=23">
+<link rel="stylesheet" href="../shared/case.css?v=1">
+</head>
+<body>
+<header class="top"><div class="wrap">
+  <a class="brand" href="../index.html" aria-label="回到首页"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M14.6 6.2c.4-2.9 2.9-4.3 4.3-3.3-1.4.5-2 1.9-1.5 3.3z"/><ellipse cx="16" cy="18" rx="10.5" ry="11.5"/><circle class="b-eye" cx="12.3" cy="15.6" r="2.1"/><circle class="b-eye" cx="19.7" cy="15.6" r="2.1"/><path class="b-beak" d="M14.1 19.6h3.8l-1.9 2.5z"/></svg></a><span class="sep" aria-hidden="true"></span>
+  <nav aria-label="页面导航"><a class="on" href="../index.html#projects">项目</a><a href="../index.html#works">作品</a><a href="../index.html#exp-sec">经历</a></nav>
+  <a class="top-cta" href="../index.html#apply">联系我<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7"/><path d="M8 7h9v9"/></svg></a></div></header>
+<main class="case wrap">
+  <a class="back" href="../index.html#projects"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>返回项目列表</a>
+  <h1>ToRouter 激活与留存方案</h1>
+  <dl class="meta"><div><dt>产品</dt><dd>ToRouter</dd></div><div><dt>角色</dt><dd>AI 产品经理</dd></div><div><dt>时间</dt><dd>2026.05 – 2026.06</dd></div></dl>
+  <section><h2>项目</h2><p>ToRouter 是面向 AI 编程用户的大模型 API 网关，一个 Key 就能在 Claude Code、Codex 等工具里调用多家模型。新用户卡在四个地方：</p><ul><li>注册后不知道先接哪个工具、用哪个模型。</li><li>充值动机不具体，感知不到充值能换来什么。</li><li>签到、邀请、返券分散在不同入口。</li><li>看不到费率、失败原因和用量明细。</li></ul></section>
+  <section><h2>过程</h2><div class="tbl"><table><thead><tr><th>层</th><th>目标</th><th>产品动作</th></tr></thead><tbody><tr><td>激活</td><td>3 分钟内完成首次有效调用</td><td>按工具生成配置的接入向导、一键测试连接、按场景推荐模型</td></tr><tr><td>付费</td><td>充值和真实权益绑定</td><td>真实充值进入 VIP；低价分组只对充值用户开放；三档套餐</td></tr><tr><td>留存</td><td>持续回来、放心用</td><td>低余额提醒、单 Key 日限额和月预算、按工具展示用量</td></tr><tr><td>增长</td><td>老用户带新用户</td><td>邀请奖励以被邀请人完成首次调用为触发点</td></tr></tbody></table></div><p>官网小需求排不上开发排期，我用 Codex 自己写代码、提合并请求。</p></section>
+  <section><h2>结果</h2><ul class="result"><li>四层方案做成 7 个页面的可交互原型供评审。</li><li>独立上线 4 个官网需求：接入 Google Tag Manager 补齐埋点、博客图片上传并自动转 WebP、国家与地区页、精简版法律文档。</li></ul></section>
+  <nav class="pager" aria-label="翻页"><a href="ai-workflow.html"><span>上一个</span>用 Claude Code 重构产品工作流</a><a href="../index.html#apply"><span>看完了</span>联系我</a></nav>
+</main>
+<script>
+// 深色时，回首页的链接都指向深色版；滚动后顶栏出现底线
+(function(){
+  if(document.documentElement.classList.contains('dark')) document.querySelectorAll('a[href^="../index.html"]').forEach(function(a){ a.setAttribute('href', a.getAttribute('href').replace('../index.html', '../dark/index.html')); });
+  var top = document.querySelector('.top'), f = function(){ top.classList.toggle('stuck', scrollY > 8); };
+  addEventListener('scroll', f, {passive: true}); f();
+})();
+</script>
+</body>
+</html>
