@@ -6,12 +6,12 @@
 
 ## 项目案例
 
-- [用 Claude Code 重构产品工作流](https://xiaguwuwu.github.io/cases/ai-workflow.html)
-- [投放落地页与新人转化](https://xiaguwuwu.github.io/cases/growth-landing.html)
-- [定价与订阅权益](https://xiaguwuwu.github.io/cases/pricing-unlimited.html)
-- [免费排队预计时间](https://xiaguwuwu.github.io/cases/queue-eta.html)
-- [趋势与数据驱动的产品运营](https://xiaguwuwu.github.io/cases/template-ops.html)
-- [ToRouter 激活与留存方案](https://xiaguwuwu.github.io/cases/torouter.html)
+- [用 Claude Code 重构产品工作流](https://musteats.top/cases/ai-workflow.html)
+- [投放落地页与新人转化](https://musteats.top/cases/growth-landing.html)
+- [定价与订阅权益](https://musteats.top/cases/pricing-unlimited.html)
+- [免费排队预计时间](https://musteats.top/cases/queue-eta.html)
+- [趋势与数据驱动的产品运营](https://musteats.top/cases/template-ops.html)
+- [ToRouter 激活与留存方案](https://musteats.top/cases/torouter.html)
 
 ## 常见问题
 
