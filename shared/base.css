@@ -575,3 +575,5 @@ mark{font-weight:500}
   .theme-t + .top-cta{margin-left:6px}
 }
 @media (max-width:380px){.top nav a{padding:0 4px;font-size:13.5px}}
+/* 中国底图加载不到时（DataV 不允许外站引用，发布到 github.io 后返回 403）：只留路线和城市，藏掉右下角的小地图 */
+.no-base .xm-mini{display:none}

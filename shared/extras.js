@@ -52,7 +52,7 @@
     var svg = stage.querySelector('.xm-main'), plane = svg.querySelector('.xm-plane'), segEls = [].slice.call(svg.querySelectorAll('.xm-seg'));
 
     // 底图：整张中国地图（含台湾、南海诸岛和断续线），原样绘制，不简化不改动
-    fetch('https://geo.datav.aliyun.com/areas_v3/bound/100000_full.json').then(function(r){ return r.json(); }).then(function(geo){
+    fetch('https://geo.datav.aliyun.com/areas_v3/bound/100000_full.json').then(function(r){ if(!r.ok) throw r.status; return r.json(); }).then(function(geo){
       var ring = function(rg){ return 'M' + rg.map(function(p){ return X(p[0]).toFixed(1) + ' ' + Y(p[1]).toFixed(1); }).join('L') + 'Z'; };
       var land = '', jd = '';
       geo.features.forEach(function(f){
