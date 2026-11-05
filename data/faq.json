@@ -2,6 +2,9 @@
   "_说明": "求职主页「常见问题」的唯一来源，tools/build_seo.py 把它写进 index.html 和 dark/index.html（静态 HTML + FAQPage 结构化数据）。问题用招聘方会搜的长尾说法（第三人称带名字），回答用第一人称；只写简历和 data/projects.js 里查得到的事实，写前过 ../简历用词避雷.md。",
   "site": "https://xiaguwuwu.github.io/",
   "description": "陈鹏飞，AI 产品经理，西安交通大学硕士。做过出海 AI 视频产品 VerseIn 的模板运营、定价与订阅、新人转化，用 Claude Code 搭 AI 工作流。正在找 AIGC、AI 视频、AI 工具方向的产品经理工作，城市不限，随时到岗。",
+  "verify": {
+    "msvalidate.01": "ACB4CDF1A8DE3441FA2E5FB181DAE374"
+  },
   "faq": [
     {
       "q": "陈鹏飞在找什么样的工作？",
