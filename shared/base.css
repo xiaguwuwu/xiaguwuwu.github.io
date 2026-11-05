@@ -577,3 +577,18 @@ mark{font-weight:500}
 @media (max-width:380px){.top nav a{padding:0 4px;font-size:13.5px}}
 /* 中国底图加载不到时（DataV 不允许外站引用，发布到 github.io 后返回 403）：只留路线和城市，藏掉右下角的小地图 */
 .no-base .xm-mini{display:none}
+
+/* 常见问题：静态 HTML（tools/build_seo.py 生成），点问题展开回答；和项目列表同一种细线行 */
+.faq .fqs{border-top:1px solid var(--fg)}
+.fq{border-bottom:1px solid var(--line)}
+.fq summary{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:18px 0;cursor:pointer;list-style:none}
+.fq summary::-webkit-details-marker{display:none}
+.fq h3{font-size:17px;line-height:1.5;font-weight:500;color:var(--fg);letter-spacing:-.01em}
+.fq-x{width:18px;height:18px;flex:none;fill:none;stroke:var(--muted);stroke-width:1.8;stroke-linecap:round;transition:transform .35s cubic-bezier(.2,.8,.2,1),stroke .2s}
+.fq summary:hover .fq-x{stroke:var(--fg)}
+.fq[open] .fq-x{transform:rotate(45deg);stroke:var(--fg)}
+.fq p{max-width:760px;padding:0 0 22px;color:var(--text);font-size:15px;line-height:1.85}
+.fq[open] p{animation:fqIn .4s cubic-bezier(.2,.8,.2,1)}
+@keyframes fqIn{from{opacity:0;transform:translateY(-4px)}}
+@media (max-width:520px){.fq h3{font-size:16px}.fq summary{padding:16px 0}}
+@media (prefers-reduced-motion:reduce){.fq-x{transition:none}.fq[open] p{animation:none}}

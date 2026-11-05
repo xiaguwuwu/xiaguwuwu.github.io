@@ -42,5 +42,7 @@
       '<div class="ap-cta"><a class="ap-btn" href="' + APPLY + '">' + svg(MAIL) + '写邮件给我<span class="rp" aria-hidden="true"></span></a>' +
       '<span class="cursor" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 2.5 19.5 12l-6.6 1.6-3.4 6.4z" fill="#fff" stroke="#000" stroke-width="1.4" stroke-linejoin="round"/></svg></span></div>' +
     '</div></section>');
+  // 「常见问题」写在页面源码里（给爬虫和 AI 引擎读），这里把它挪到经历下面、联系上面
+  var fq = document.getElementById('faq'), ap = document.getElementById('apply'); if(fq && ap) ap.parentNode.insertBefore(fq, ap);
   document.body.insertAdjacentHTML('beforeend', '<div class="modal" id="modal" role="dialog" aria-modal="true" aria-label="模板详情"><div class="sheet" id="sheet"></div></div>');
 })();
