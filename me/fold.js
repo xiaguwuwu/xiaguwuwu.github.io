@@ -20,7 +20,8 @@
   /* ================= 声音：Web Audio 现场合成，不加载音频文件 ================= */
   var Snd = (function(){
     var ctx = null, on = false, master, buf, rus;
-    try { on = localStorage.getItem('me-sound') === '1'; } catch(e){}
+    on = true;  // 默认打开，访客关掉过才记成 0
+    try { on = localStorage.getItem('me-sound') !== '0'; } catch(e){}
     function init(){
       if(ctx) return;
       var AC = window.AudioContext || window.webkitAudioContext; if(!AC) return;
@@ -468,7 +469,8 @@
   function toggleSnd(){ Snd.set(!Snd.on()); syncSnd(); if(Snd.on()) setTimeout(function(){ Snd.crease(); Snd.note(2); }, 60); }
   $('snd').addEventListener('click', toggleSnd);
   document.querySelectorAll('[data-snd]').forEach(function(b){ b.addEventListener('click', toggleSnd); });
-  ['pointerdown', 'keydown'].forEach(function(ev){ addEventListener(ev, function(){ Snd.wake(); }, {once: true}); });
+  // 浏览器要等访客第一次点击、触摸或按键才让声音响（滚动不算）
+  ['pointerdown', 'keydown', 'touchend'].forEach(function(ev){ addEventListener(ev, function(){ Snd.wake(); }, {once: true}); });
   syncSnd();
 
   /* ================= 索引：关键词 → 哪几篇、哪一句 ================= */

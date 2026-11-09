@@ -222,3 +222,40 @@ main > .s,#ch-spacers > .s{height:150vh;height:150svh}
 .veil{position:fixed;inset:0;z-index:25;background:var(--stage);opacity:0;pointer-events:none;transition:opacity .3s ease}
 .veil.on{opacity:1;transition-duration:.3s}
 @media (prefers-reduced-motion:reduce){.veil{transition:none}}
+
+/* ---------- 首屏吉祥物阿鹏（apeng.js）：右下角探出来，气泡说往下滑能看到什么 ---------- */
+.apeng{position:fixed;right:28px;bottom:24px;z-index:25;display:flex;flex-direction:column;align-items:flex-end;gap:10px;pointer-events:none;transition:transform .7s cubic-bezier(.3,1.35,.5,1),opacity .4s}
+.apeng.pre,.apeng.away{transform:translateY(130%);opacity:0;transition-timing-function:cubic-bezier(.5,0,.75,0),ease}
+.ap-bub{width:min(290px,calc(100vw - 40px));padding:14px 16px;border:1px solid var(--line);border-radius:14px 14px 4px 14px;background:var(--bg2);color:var(--text);font-size:14px;line-height:1.75;box-shadow:0 18px 40px -20px rgba(0,0,0,.7);pointer-events:auto;transform-origin:right bottom}
+.ap-bub b{color:var(--fg);font-weight:600}
+.ap-bub small{display:block;margin-top:8px;font:11.5px var(--mono);letter-spacing:.04em;color:var(--accent)}
+.ap-bub.pop{animation:apPop .45s cubic-bezier(.3,1.5,.5,1) both}
+@keyframes apPop{from{opacity:0;transform:scale(.7) translateY(8px)}}
+.ap-btn{width:72px;height:72px;padding:0;border:0;background:none;cursor:pointer;pointer-events:auto;-webkit-tap-highlight-color:transparent}
+.ap-btn svg{width:100%;height:100%;overflow:visible}
+.ap-skin,.ap-wing{fill:var(--accent)}
+.ap-crest{fill:none;stroke:var(--accent);stroke-width:2.6;stroke-linecap:round}
+.ap-belly{fill:#ffe6da}
+.ap-foot,.ap-beak{fill:#ffb020}
+.ap-eye ellipse{fill:#1b1b1f}.ap-hl{fill:#fff}
+.ap-pupil{transition:transform .12s linear}
+.ap-eye{transform-box:fill-box;transform-origin:center;transition:transform .08s,opacity .15s}
+.blink .ap-eye{transform:scaleY(.1)}
+.ap-happy{fill:none;stroke:#1b1b1f;stroke-width:2.4;stroke-linecap:round;opacity:0;transition:opacity .15s}
+.ap-btn:hover .ap-eye{opacity:0}.ap-btn:hover .ap-happy{opacity:1}
+.ap-cheek{fill:#ff8fa3;opacity:.7;transition:opacity .2s}.ap-btn:hover .ap-cheek{opacity:1}
+.ap-shadow{fill:rgba(0,0,0,.35)}
+.ap-body{transform-origin:40px 70px;animation:apBob 3.2s ease-in-out infinite}
+.ap-wing{transform-box:fill-box}.ap-wing.l{transform-origin:right top}.ap-wing.r{transform-origin:left top}
+.ap-btn:hover .ap-wing.l,.apeng.away .ap-wing.l{animation:apFlapL .35s ease-in-out infinite alternate}
+.ap-btn:hover .ap-wing.r,.apeng.away .ap-wing.r{animation:apFlapR .35s ease-in-out infinite alternate}
+.hop .ap-body{animation:apHop .55s cubic-bezier(.3,1.6,.5,1)}
+.ap-heart{fill:#ff5c7a;opacity:0;transform-box:fill-box;transform-origin:center}
+.love .ap-heart{animation:apHeart .9s ease-out}
+@keyframes apBob{50%{transform:translateY(-4px)}}
+@keyframes apHop{35%{transform:translateY(-16px) rotate(-6deg)}70%{transform:translateY(0) scaleY(.92)}}
+@keyframes apFlapL{to{transform:rotate(-26deg)}}
+@keyframes apFlapR{to{transform:rotate(26deg)}}
+@keyframes apHeart{0%{opacity:0;transform:translateY(8px) scale(.4)}30%{opacity:1;transform:translateY(-4px) scale(1.12)}100%{opacity:0;transform:translateY(-20px) scale(.9)}}
+@media (max-width:640px){.apeng{right:14px;bottom:16px}.ap-btn{width:58px;height:58px}.ap-bub{font-size:13.5px}}
+@media (prefers-reduced-motion:reduce){.ap-body,.ap-wing{animation:none!important}.apeng{transition:opacity .2s}}
