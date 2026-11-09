@@ -160,17 +160,22 @@
     '<div class="m-bub" role="status" hidden></div>' +
     '<button type="button" class="m-btn" aria-label="吉祥物阿鹏，点一下看提示">' +
     '<svg viewBox="0 0 80 80" aria-hidden="true">' +
-      '<ellipse class="m-shadow" cx="40" cy="74" rx="18" ry="3.5"/>' +
+      '<ellipse class="m-shadow" cx="40" cy="76" rx="17" ry="3"/>' +
+      '<path class="m-heart" d="M40 13c-1.6-3.2-7-2.6-7 1.4 0 3 3.6 5.2 7 8.2 3.4-3 7-5.2 7-8.2 0-4-5.4-4.6-7-1.4z"/>' +
       '<g class="m-body">' +
-        '<path class="m-wing l" d="M17 40c-9 2-12 10-9 16 6-1 11-5 13-10z"/>' +
-        '<path class="m-wing r" d="M63 40c9 2 12 10 9 16-6-1-11-5-13-10z"/>' +
-        '<path class="m-crest" d="M36 13c1-6 6-9 9-7-3 1-4 4-3 7z"/>' +
-        '<ellipse class="m-skin" cx="40" cy="42" rx="24" ry="26"/>' +
-        '<ellipse class="m-belly" cx="40" cy="50" rx="14" ry="13"/>' +
-        '<g class="m-eyes"><g class="m-eye"><ellipse cx="31" cy="36" rx="5.2" ry="6"/><circle class="m-pupil" cx="31" cy="36.5" r="2.7"/></g>' +
-        '<g class="m-eye"><ellipse cx="49" cy="36" rx="5.2" ry="6"/><circle class="m-pupil" cx="49" cy="36.5" r="2.7"/></g></g>' +
-        '<path class="m-beak" d="M35 44h10l-5 6z"/>' +
-        '<ellipse class="m-cheek" cx="25" cy="46" rx="3.6" ry="2.2"/><ellipse class="m-cheek" cx="55" cy="46" rx="3.6" ry="2.2"/>' +
+        '<ellipse class="m-foot" cx="33" cy="71.5" rx="4.4" ry="2.4"/><ellipse class="m-foot" cx="47" cy="71.5" rx="4.4" ry="2.4"/>' +
+        '<path class="m-wing l" d="M17 46c-6.5 0-9.5 6-7.5 11 5.5.5 9.5-3.5 9.5-8z"/>' +
+        '<path class="m-wing r" d="M63 46c6.5 0 9.5 6 7.5 11-5.5.5-9.5-3.5-9.5-8z"/>' +
+        '<path class="m-crest" d="M40 24c-.6-5 .8-8.6 4.6-10M40 24c-2.2-4-5.6-5.4-9-4.4M40 24c1.6-3.6 4.8-5 8.4-4"/>' +
+        '<ellipse class="m-skin" cx="40" cy="47" rx="25" ry="24"/>' +
+        '<ellipse class="m-belly" cx="40" cy="56" rx="15" ry="11.5"/>' +
+        '<g class="m-eyes">' +
+          '<g class="m-eye"><g class="m-pupil"><ellipse cx="31" cy="43" rx="4.6" ry="5.4"/><circle class="m-hl" cx="32.6" cy="41" r="1.8"/><circle class="m-hl" cx="29.6" cy="45" r=".8"/></g></g>' +
+          '<g class="m-eye"><g class="m-pupil"><ellipse cx="49" cy="43" rx="4.6" ry="5.4"/><circle class="m-hl" cx="50.6" cy="41" r="1.8"/><circle class="m-hl" cx="47.6" cy="45" r=".8"/></g></g>' +
+          '<path class="m-happy" d="M26.6 44.2q4.4-5 8.8 0M44.6 44.2q4.4-5 8.8 0"/>' +
+        '</g>' +
+        '<path class="m-beak" d="M36.8 49.6q3.2-1.6 6.4 0-1.2 3.6-3.2 3.6t-3.2-3.6z"/>' +
+        '<ellipse class="m-cheek" cx="25.5" cy="51" rx="4.2" ry="2.6"/><ellipse class="m-cheek" cx="54.5" cy="51" rx="4.2" ry="2.6"/>' +
       '</g></svg></button>';
   document.body.appendChild(bird);
   var btn = bird.querySelector('.m-btn'), bub = bird.querySelector('.m-bub'), pupils = bird.querySelectorAll('.m-pupil');
@@ -189,7 +194,7 @@
     hideT = setTimeout(function(){ bub.hidden = true; }, ms || 7000);
   }
   btn.addEventListener('click', function(){
-    if(!reduce){ bird.classList.remove('hop'); void bird.offsetWidth; bird.classList.add('hop'); }
+    if(!reduce){ bird.classList.remove('hop', 'love'); void bird.offsetWidth; bird.classList.add('hop', 'love'); }
     var s = section();
     if(s === lastSec && !bub.hidden){
       var line = EXTRA[extra++ % EXTRA.length];
@@ -209,4 +214,56 @@
     var ap = $('apply');
     if(ap && 'IntersectionObserver' in window) new IntersectionObserver(function(es){ bird.classList.toggle('wave', es[0].isIntersecting); }, {threshold: .5}).observe(ap);
   }
+
+  /* ---------- 个人世界入口：点首屏的名字，纸飞机从名字飞出，深色铺满全屏，再告诉对方这是哪里 ---------- */
+  var meLink = document.querySelector('.me-link');
+  if(meLink) meLink.addEventListener('click', function(e){
+    if(e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button) return;  // 新标签打开就不拦
+    e.preventDefault(); openWorld(meLink.getAttribute('href'));
+  });
+  function openWorld(href){
+    if(document.querySelector('.mw')) return;
+    var W = innerWidth, H = innerHeight, r = meLink.getBoundingClientRect();
+    var x0 = r.right - 8, y0 = r.top + r.height * .45, ex = W * (W < 700 ? .7 : .78), ey = H * .26;
+    var d = 'M' + x0 + ' ' + y0 + 'C' + (x0 + W * .18) + ' ' + (y0 - H * .32) + ' ' + (ex - W * .34) + ' ' + (ey + H * .42) + ' ' + ex + ' ' + ey;
+    meLink.classList.remove('me-pop'); void meLink.offsetWidth; meLink.classList.add('me-pop');
+    var w = document.createElement('div');
+    w.className = 'mw'; w.setAttribute('role', 'dialog'); w.setAttribute('aria-modal', 'true'); w.setAttribute('aria-labelledby', 'mw-h');
+    w.style.setProperty('--x', ex + 'px'); w.style.setProperty('--y', ey + 'px');
+    w.innerHTML =
+      '<svg class="mw-fly" width="' + W + '" height="' + H + '" viewBox="0 0 ' + W + ' ' + H + '" aria-hidden="true">' +
+        '<defs><mask id="mw-m" maskUnits="userSpaceOnUse" x="0" y="0" width="' + W + '" height="' + H + '"><path class="mw-mk" d="' + d + '" pathLength="1"/></mask></defs>' +
+        '<path class="mw-trail" d="' + d + '" mask="url(#mw-m)"/></svg>' +
+      '<div class="mw-bg"></div>' +
+      '<svg class="mw-plane" viewBox="0 0 32 32" aria-hidden="true" style="offset-path:path(\'' + d + '\')"><path d="M3 15.5 29 4l-8 24-5.5-9.5z"/><path class="f" d="M15.5 18.5 29 4"/></svg>' +
+      '<div class="mw-in">' +
+        '<p class="mw-k">嘘——</p>' +
+        '<h2 id="mw-h">你不小心闯进了<br>我的个人世界</h2>' +
+        '<div class="mw-b"><a class="mw-go" href="' + href + '">进去看看</a><button type="button" class="mw-back">先回简历</button></div>' +
+      '</div>';
+    document.body.appendChild(w);
+    document.documentElement.classList.add('mw-lock');
+    var back = w.querySelector('.mw-back'), go = w.querySelector('.mw-go');
+    requestAnimationFrame(function(){ w.classList.add(reduce ? 'show' : 'fly'); });
+    setTimeout(function(){ w.classList.add('show'); go.focus({preventScroll: true}); }, reduce ? 30 : 1250);
+    function close(){
+      document.removeEventListener('keydown', onKey);
+      w.classList.add('out');
+      setTimeout(function(){ w.remove(); document.documentElement.classList.remove('mw-lock'); meLink.focus({preventScroll: true}); }, reduce ? 10 : 650);
+    }
+    function onKey(e){
+      if(e.key === 'Escape') close();
+      if(e.key === 'Tab'){ var f = e.shiftKey ? go : back; if(document.activeElement === f){ e.preventDefault(); (e.shiftKey ? back : go).focus(); } }
+    }
+    document.addEventListener('keydown', onKey);
+    back.addEventListener('click', close);
+    go.addEventListener('click', function(e){
+      e.preventDefault();
+      try{ sessionStorage.setItem('me-arrive', '1'); }catch(_){}
+      w.classList.add('leave');
+      setTimeout(function(){ location.href = href; }, reduce ? 10 : 420);
+    });
+  }
+  // 从个人主页按「返回」回来时，页面可能来自缓存，把残留的转场层清掉
+  addEventListener('pageshow', function(e){ if(e.persisted){ var o = document.querySelector('.mw'); if(o) o.remove(); document.documentElement.classList.remove('mw-lock'); } });
 })();

@@ -8,6 +8,15 @@
 <meta name="description" content="陈鹏飞的个人主页：一张写满他文字的纸，拆开、再一步步折成纸飞机。每一折是他的一次变化，每句话都链接回他文章里的原文。">
 <link rel="stylesheet" href="me.css?v=3">
 <link rel="stylesheet" href="home.css?v=4">
+<!-- 从求职主页的转场进来：首屏的纸飞机和文字从深色里淡出接上 -->
+<script>try{if(sessionStorage.getItem('me-arrive')){sessionStorage.removeItem('me-arrive');document.documentElement.classList.add('arrive')}}catch(e){}</script>
+<style>
+html.arrive .stage{animation:meArriveS 1.4s cubic-bezier(.2,.8,.2,1) both}
+html.arrive .ov,html.arrive .bar{animation:meArriveT 1s .45s ease both}
+@keyframes meArriveS{from{opacity:0;transform:scale(.92)}}
+@keyframes meArriveT{from{opacity:0}}
+@media (prefers-reduced-motion:reduce){html.arrive .stage,html.arrive .ov,html.arrive .bar{animation-duration:.01s}}
+</style>
 </head>
 <body class="home">
 <header class="bar">
