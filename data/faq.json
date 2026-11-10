@@ -9,35 +9,89 @@
   "faq": [
     {
       "q": "陈鹏飞在找什么样的工作？",
-      "a": "我在找 AI 产品经理的工作，最想做 AIGC 应用和 AI 工具：AI 视频、图像生成、大模型 API、AI 编程工具都行。城市不挑，随时能入职。想看完整简历，发邮件到 xiaguwuwu@gmail.com 就好。"
+      "a": "我在找 AI 产品经理的工作，方向是 AIGC 应用和 AI 工具：AI 视频、图像生成、大模型 API、AI 编程工具。城市不限，随时可以入职。要完整简历，发邮件到 xiaguwuwu@gmail.com。"
     },
     {
       "q": "陈鹏飞做过哪些 AI 视频产品？",
-      "a": "主要是 VerseIn，一款做海外市场的 AI 视频和图像生成产品，App 和 Web 都有，支持 8 种语言。玩法很简单：上传一张照片，套个模板就出视频。2026.05 – 2026.11 我在上海的 Zuler International 做产品经理，头一个月做大模型 API 网关 ToRouter，之后一直在 VerseIn，管模板运营、定价和订阅、免费排队、落地页和新人转化。"
+      "a": "VerseIn，一款出海的 AI 视频和图像生成产品，有 App 和 Web，支持 8 种语言。用户上传一张照片、选一个模板，就能生成视频。2026.05 – 2026.11 我在上海的 Zuler International 做产品经理，第一个月做大模型 API 网关 ToRouter，之后做 VerseIn，负责模板运营、定价和订阅、免费排队、投放落地页和新人转化。"
     },
     {
       "q": "AIGC 产品经理平时具体做什么？以 VerseIn 为例",
-      "a": "拿我在 VerseIn 的日常来说：每天先刷 Reddit、Instagram、小红书和竞品热门榜，看最近什么视频火、为什么火，然后写提示词，用 Seedance、Kling、Veo 这些模型跑片，效果好的做成模板上架。上架以后就盯数据。印象最深的是两个很像的手办模板，分享率一个 51.6%、一个 19.5%，收入差了 6 倍。抽帧对比下来，差别只在小人会不会对用户做出反应，之后选题就照这个思路来。首页近 600 个模板的排序，也改成按埋点数据算，每两周重排一次。"
+      "a": "在 VerseIn，我每天看 Reddit、Instagram、小红书和竞品热门榜上哪些视频火了，拆出它的玩法，写提示词，用 Seedance、Kling、Veo 等模型跑片，效果好的做成模板上架，上架后看埋点数据。有两个相近的手办模板，分享率是 51.6% 和 19.5%，归因收入差 6 倍；抽帧对比后发现，差别在于小人会不会对用户做出反应，后面的选题就按这一点筛。首页近 600 个模板的排序也改成用埋点数据按公式计算，每两周重排一次。"
     },
     {
-      "q": "陈鹏飞怎么用数据做产品决策？",
-      "a": "举个免费排队的例子。用户投诉排队太久，我先把排队看板和埋点补齐，再翻了 692 条生产记录，找到根因：第一次报给用户的等待时间太乐观了。改成报一个保守的区间以后，承诺达成率月包 92%、年包 100%。定价也是这么做的：多家上游模型各有各的计价方式，我折算成统一成本，按模型、清晰度、时长算出保本价和目标毛利价。这个计算器后来成了公司定套餐、算毛利唯一用的数据源。"
+      "q": "怎么用数据做产品决策？",
+      "a": "免费排队是一个例子。用户投诉排队太久，我先补了排队看板和埋点，拉出一周 692 条放行记录，对比承诺时间和实际等待：实际等待的 p90 是承诺的 3.1 倍，第一次给出的时间偏乐观。改成按 90 分位校准的保守区间后，区间上限达成率月包 92%、年包 100%。定价是另一个例子：多家上游模型的计费单位不同，我折算成统一成本，按模型、清晰度、时长算出保本价和目标毛利价。这个计算器后来是公司套餐定价和毛利测算的唯一数据源。"
     },
     {
-      "q": "陈鹏飞怎么用 Claude Code 和 AI 工具做产品工作？",
-      "a": "重复的活我基本交给 AI。用 Claude Code 和 Codex 写了 10 多个 skill 和定时任务，比如趋势日报每天自动出，攒了 120 多份。要原型或小功能，我也自己上手：ToRouter 那 7 个页面的可交互原型是用 AI 编程做的；官网的 4 个需求（GTM 埋点、博客图片上传和 WebP 压缩、国家与地区页、法律文档）是我用 Codex 写完上线的。你正在看的这个网站，也是 Claude Code 搭的。"
+      "q": "怎么用 Claude Code 和 AI 工具做产品工作？",
+      "a": "重复的工作我做成了 skill 和定时任务：用 Claude Code 和 Codex 写了 10 多个，其中趋势日报每天自动生成，累计 120 多份。原型和小功能我自己动手做：ToRouter 的 7 页可交互原型是用 AI 编程做的；官网的 4 个需求（GTM 埋点、博客图片上传和 WebP 压缩、国家与地区页、法律文档）是我用 Codex 开发并上线的。这个网站也是用 Claude Code 做的。"
     },
     {
-      "q": "陈鹏飞有计算机技术背景吗？",
-      "a": "有，本科和硕士都读计算机。本科在电子科技大学读信息与软件工程，GPA 3.92/4.00，拿过数学建模国赛一等奖；硕士在西安交通大学，研究方向是用大模型做分布式设备的异常检测。2025 年夏天在阿里云写了三个月 Go，把制品信息的数据库查询从分钟级降到毫秒级。所以跟研发聊接口和方案不费劲，取数也是自己写 SQL 和 Python。"
+      "q": "产品经理有计算机技术背景吗？",
+      "a": "有，本科和硕士都是计算机方向。本科在电子科技大学读信息与软件工程，GPA 3.92/4.00，获全国大学生数学建模竞赛国家一等奖；硕士在西安交通大学，研究方向是基于大模型的分布式设备异常检测。2025.06 – 2025.09 在阿里云做研发实习，用 Go 把制品信息的数据库查询从分钟级降到毫秒级。现在做产品，取数用 SQL 和 Python 自己写。"
     },
     {
-      "q": "陈鹏飞做过出海产品的增长和投放吗？",
-      "a": "做过。VerseIn 本来就是做海外市场的。我和投放团队一起，把长尾词和网址分成四类落地页，做成后台可配置：主题页和模型页已经上线，运营在后台自己就能建，不用等发版，首批 18 个模型页的 FAQ 有 8 种语言。新人转化那块，我把 5 段 20 步从头走了一遍，整理出 33 个转化钩子，一期先做 13 个。走查时还发现邮箱注册会丢掉大约 75% 的投放来源，补救方案已经排进一期。"
+      "q": "做过出海产品的增长和投放吗？",
+      "a": "做过，VerseIn 面向海外市场。我和投放团队把长尾词和网址规划成四类落地页，做成后台可配置：主题页和模型页已上线，运营在后台自己建，不用等发版；首批 18 个模型页的 FAQ 有 8 种语言。新人转化方面，我走查了从落地到付费的 5 段 20 步，整理出 33 个转化钩子，一期做 13 个。走查中发现邮箱注册会丢失约 75% 的投放来源，修复方案已列入一期需求。"
     },
     {
       "q": "在哪里能看到陈鹏飞的作品集和项目案例？",
-      "a": "就在这一页。「项目」里有 6 个案例，每个都能点进去看过程和结果；「作品」里是我在 VerseIn 用 AI 跑出来的视频，提示词和迭代了几轮都附在旁边；「经历」是一条从成都、西安、杭州到上海的时间线。要完整简历，发邮件到 xiaguwuwu@gmail.com 或 534963019@qq.com。"
+      "a": "在这一页。「项目」有 6 个案例，每个可以点开看过程和结果；「作品」是我在 VerseIn 用 AI 生成的视频，附提示词和迭代轮数；「经历」按时间列出成都、西安、杭州、上海四个城市。要完整简历，发邮件到 xiaguwuwu@gmail.com 或 534963019@qq.com。"
     }
-  ]
+  ],
+  "en": {
+    "_说明": "英文页（en/、en/dark/）的描述和常见问题，只翻译上面中文版已有的事实；改中文时同步改这里。",
+    "title": "Pengfei Chen | AI Product Manager",
+    "description": "Pengfei Chen, AI product manager with a master’s from Xi’an Jiaotong University. Worked on VerseIn, an AI video product for global markets (template operations, pricing and subscriptions, new-user conversion), and builds AI workflows with Claude Code. Looking for product manager roles in AIGC, AI video and AI tools. Any city, available now.",
+    "alumniOf": [
+      "Xi’an Jiaotong University",
+      "University of Electronic Science and Technology of China"
+    ],
+    "knowsAbout": [
+      "AI product management",
+      "AIGC",
+      "AI video generation",
+      "Products for global markets",
+      "Pricing and subscriptions",
+      "Event tracking and funnel analysis",
+      "Ad landing pages",
+      "Claude Code",
+      "LLM APIs"
+    ],
+    "faq": [
+      {
+        "q": "What kind of job is Pengfei Chen looking for?",
+        "a": "I’m looking for an AI product manager role on AIGC apps and AI tools: AI video, image generation, LLM APIs or AI coding tools. Any city works, and I can start right away. For my full résumé, email xiaguwuwu@gmail.com."
+      },
+      {
+        "q": "What AI video products has Pengfei Chen worked on?",
+        "a": "VerseIn, an AI video and image generation product for global markets, on app and web, in 8 languages. Users upload one photo, pick a template and get a video. From 2026.05 to 2026.11 I was a product manager at Zuler International in Shanghai. My first month was on ToRouter, an LLM API gateway; after that I worked on VerseIn, covering template operations, pricing and subscriptions, the free queue, ad landing pages and new-user conversion."
+      },
+      {
+        "q": "What does an AIGC product manager actually do? A VerseIn example",
+        "a": "At VerseIn, I checked Reddit, Instagram, Xiaohongshu and competitors’ trending lists every day to see which videos were taking off, worked out the mechanic behind them, wrote prompts, ran them on models such as Seedance, Kling and Veo, and turned the good results into templates. After launch I read the event data. Two similar miniature-figure templates had share rates of 51.6% and 19.5%, and a 6× gap in attributed revenue. Comparing frames showed the difference was whether the little figure reacted to the user, and later topics were screened on that point. Ranking for the nearly 600 templates on the homepage also moved to a formula over event data, re-run every two weeks."
+      },
+      {
+        "q": "How do you use data to make product decisions?",
+        "a": "The free queue is one example. Users complained the wait was too long. I first added a queue dashboard and tracking, then pulled one week of 692 release records and compared the promised time with the actual wait: the p90 of actual waits was 3.1× the promise, so the first estimate was too optimistic. After switching to a conservative range calibrated on the 90th percentile, waits stayed within the upper bound 92% of the time on monthly plans and 100% on annual. Pricing is another: each upstream model had its own billing unit, so I converted them to one cost basis and worked out break-even and target-margin prices by model, resolution and duration. That calculator became the only data source the company uses to set plans and estimate margins."
+      },
+      {
+        "q": "How do you use Claude Code and AI tools in product work?",
+        "a": "I turned repetitive work into skills and scheduled tasks: 10+ written with Claude Code and Codex, including a daily trend report that runs on its own and has produced 120+ issues. I build prototypes and small features myself: the interactive prototype of ToRouter’s 7 pages was made with AI coding, and I developed and shipped 4 website requirements with Codex (GTM tracking, blog image upload with WebP compression, country and region pages, legal pages). This site was also built with Claude Code."
+      },
+      {
+        "q": "Do you have a computer science background?",
+        "a": "Yes, both my bachelor’s and master’s are in computing. I studied Information and Software Engineering at the University of Electronic Science and Technology of China, with a GPA of 3.92/4.00 and a National First Prize in the China Undergraduate Mathematical Contest in Modeling. My master’s at Xi’an Jiaotong University focused on LLM-based anomaly detection for distributed devices. From 2025.06 to 2025.09 I was an engineering intern at Alibaba Cloud, where I used Go to cut artifact metadata queries from minutes to milliseconds. As a product manager I pull my own data with SQL and Python."
+      },
+      {
+        "q": "Have you done growth and paid acquisition for global products?",
+        "a": "Yes. VerseIn targets markets outside China. With the ads team, I planned long-tail keywords and URLs into four kinds of landing pages and made them configurable in the backend. Theme pages and model pages are live, ops create them without waiting for a release, and FAQs on the first 18 model pages come in 8 languages. For new-user conversion, I walked the 5 stages and 20 steps from landing to payment, listed 33 conversion hooks, and put 13 in phase one. The walkthrough also showed that email sign-up loses about 75% of ad attribution; the fix is in the phase-one requirements."
+      },
+      {
+        "q": "Where can I see Pengfei Chen’s portfolio and case studies?",
+        "a": "On this page. Projects has 6 cases, each with its process and results; Work has videos I generated with AI at VerseIn, with the prompt and the number of iterations; Experience lists Chengdu, Xi’an, Hangzhou and Shanghai in order. For my full résumé, email xiaguwuwu@gmail.com or 534963019@qq.com."
+      }
+    ]
+  }
 }

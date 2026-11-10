@@ -2,12 +2,16 @@
 <html lang="zh-CN">
 <head>
 <meta charset="utf-8">
+<script src="../shared/lang.js?v=1"></script>
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex,nofollow">
 <title>陈鹏飞｜纸飞机</title>
 <meta name="description" content="陈鹏飞的个人主页：一张写满他文字的纸，拆开、再一步步折成纸飞机。每一折是他的一次变化，每句话都链接回他文章里的原文。">
+<link rel="icon" href="/assets/favicon.svg?v=2" type="image/svg+xml">
+<link rel="icon" href="/assets/favicon-32.png?v=2" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png?v=2">
 <link rel="stylesheet" href="me.css?v=3">
-<link rel="stylesheet" href="home.css?v=5">
+<link rel="stylesheet" href="home.css?v=8">
 <!-- 从求职主页的转场进来：首屏的纸飞机和文字从深色里淡出接上 -->
 <script>try{if(sessionStorage.getItem('me-arrive')){sessionStorage.removeItem('me-arrive');document.documentElement.classList.add('arrive')}}catch(e){}</script>
 <style>
@@ -20,10 +24,11 @@ html.arrive .ov,html.arrive .bar{animation:meArriveT 1s .45s ease both}
 </head>
 <body class="home">
 <header class="bar">
-  <a class="mark" href="#top" aria-label="回到顶部"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M3 15.5 29 4l-8 24-5.5-9.5z"/><path class="f" d="M15.5 18.5 29 4"/></svg></a><span class="sep"></span>
-  <nav aria-label="页面导航" style="display:contents"><a href="#folds">折痕</a><a href="#ways">想法</a><a href="#index">索引</a><a class="hide-s" href="#reading">读书</a></nav>
-  <button class="snd" id="snd" type="button" aria-pressed="false" title="声音开关"><svg viewBox="0 0 24 24" aria-hidden="true"><path class="spk" d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z"/><path class="w1" d="M15.5 9.2a4 4 0 0 1 0 5.6"/><path class="w2" d="M18.2 6.6a7.6 7.6 0 0 1 0 10.8"/><path class="x" d="m16 9.5 5 5m0-5-5 5"/></svg><span>声音</span></button>
-  <a class="home" href="../">求职主页<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7"/><path d="M8 7h9v9"/></svg></a>
+  <a class="mark" href="#top" aria-label="回到顶部" data-en-label="Back to top"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M3 15.5 29 4l-8 24-5.5-9.5z"/><path class="f" d="M15.5 18.5 29 4"/></svg></a><span class="sep"></span>
+  <nav aria-label="页面导航" data-en-label="Page navigation" style="display:contents"><a href="#folds" data-en="Creases">折痕</a><a href="#ways" data-en="Thinking">想法</a><a class="hide-s" href="#index" data-en="Index">索引</a><a class="hide-s" href="#reading" data-en="Reading">读书</a></nav>
+  <button class="lng" id="lng" type="button" lang="en" aria-label="Switch to English" title="English" data-en="中" data-en-label="切换到中文" data-en-title="中文">EN</button>
+  <button class="snd" id="snd" type="button" aria-pressed="false" title="声音开关" data-en-title="Sound on or off"><svg viewBox="0 0 24 24" aria-hidden="true"><path class="spk" d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z"/><path class="w1" d="M15.5 9.2a4 4 0 0 1 0 5.6"/><path class="w2" d="M18.2 6.6a7.6 7.6 0 0 1 0 10.8"/><path class="x" d="m16 9.5 5 5m0-5-5 5"/></svg><span data-en="Sound">声音</span></button>
+  <a class="home" href="../" data-en-href="../en/"><span data-en="Resume">求职主页</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7"/><path d="M8 7h9v9"/></svg></a>
 </header>
 
 <!-- 固定在背后的舞台：纸飞机、刻度圈、引线都画在这块画布上 -->
@@ -32,19 +37,19 @@ html.arrive .ov,html.arrive .bar{animation:meArriveT 1s .45s ease both}
 <!-- 固定的文字层：滚动到哪一节，就换成哪一节的内容 -->
 <div class="ov" id="ov">
   <div class="o o-hero" data-s="0">
-    <h1>陈鹏飞<i>.</i></h1>
+    <h1 data-en="Pengfei Chen<i>.</i>">陈鹏飞<i>.</i></h1>
     <p class="lead" id="hero-line"></p>
     <a class="cite" id="hero-q"></a>
   </div>
   <div class="o o-open" data-s="1">
-    <h2>让它<br>再飞起来吧</h2>
+    <h2 data-en="Let it<br>fly again">让它<br>再飞起来吧</h2>
   </div>
   <ol class="labels o-open-l" id="labels"></ol>
   <div id="chs"></div>
   <div class="o o-ways" data-s="8">
-    <p class="kick">折好了</p>
-    <h2>他怎么想</h2>
-    <p class="lead">点一个想法，右下角会换成他的原话。</p>
+    <p class="kick" data-en="Folded">折好了</p>
+    <h2 data-en="How he thinks">他怎么想</h2>
+    <p class="lead" data-en="Pick an idea, and the card at the bottom right switches to his own words.">点一个想法，右下角会换成他的原话。</p>
   </div>
   <ul class="wl" id="wl"></ul>
   <aside class="card" id="card" aria-live="polite">
@@ -55,15 +60,15 @@ html.arrive .ov,html.arrive .bar{animation:meArriveT 1s .45s ease both}
 </div>
 
 <main id="top">
-  <section class="s" data-s="0" aria-label="首屏"></section>
-  <section class="s" id="folds" data-s="1" aria-label="六道折痕"></section>
+  <section class="s" data-s="0" aria-label="首屏" data-en-label="Opening"></section>
+  <section class="s" id="folds" data-s="1" aria-label="六道折痕" data-en-label="Six creases"></section>
   <div id="ch-spacers"></div>
-  <section class="s" id="ways" data-s="8" aria-label="他怎么想"></section>
+  <section class="s" id="ways" data-s="8" aria-label="他怎么想" data-en-label="How he thinks"></section>
 
   <section class="blk" id="index">
     <div class="wrap">
-      <header class="bh"><p class="kick">索引</p><h2>他反复写到的词</h2><p class="lead">20 篇文章里出现最多的词。点一个词，看它出现在哪几篇、哪一句。</p></header>
-      <div class="cloud" id="cloud" role="group" aria-label="关键词"></div>
+      <header class="bh"><p class="kick" data-en="Index">索引</p><h2 data-en="Words he keeps coming back to">他反复写到的词</h2><p class="lead" data-en="The words that appear most across his 20 essays. Pick one to see which essays and sentences it appears in. The sentences are in the original Chinese.">20 篇文章里出现最多的词。点一个词，看它出现在哪几篇、哪一句。</p></header>
+      <div class="cloud" id="cloud" role="group" aria-label="关键词" data-en-label="Keywords"></div>
       <div class="strip" id="strip"></div>
       <p class="strip-x"><span id="strip-a"></span><span id="strip-b"></span></p>
       <ol class="hits" id="hits"></ol>
@@ -72,8 +77,8 @@ html.arrive .ov,html.arrive .bar{animation:meArriveT 1s .45s ease both}
 
   <section class="blk" id="reading">
     <div class="wrap">
-      <header class="bh"><p class="kick">读书</p><h2 id="r-h"></h2><p class="lead">每个点是他在微信读书里读过的一个小时，颜色是年份。点一下点阵。</p></header>
-      <div class="dots-w"><canvas id="dots" aria-label="阅读时长点阵"></canvas></div>
+      <header class="bh"><p class="kick" data-en="Reading">读书</p><h2 id="r-h"></h2><p class="lead" data-en="Each dot is one hour he spent reading in WeChat Read, colored by year. Click the dots.">每个点是他在微信读书里读过的一个小时，颜色是年份。点一下点阵。</p></header>
+      <div class="dots-w"><canvas id="dots" aria-label="阅读时长点阵" data-en-label="Reading hours, one dot per hour"></canvas></div>
       <div class="rfacts" id="rfacts"></div>
     </div>
   </section>
@@ -81,21 +86,26 @@ html.arrive .ov,html.arrive .bar{animation:meArriveT 1s .45s ease both}
   <section class="blk end" id="end">
     <canvas id="fly" aria-hidden="true"></canvas>
     <div class="wrap">
-      <p class="kick">起飞</p>
+      <p class="kick" data-en="Take off">起飞</p>
       <blockquote class="endq" id="end-q"></blockquote>
       <a class="cite" id="end-a"></a>
       <div class="end-b">
-        <button class="btn" type="button" id="again">再飞一次</button>
-        <a class="btn" href="a/">全部 20 篇文章</a>
-        <a class="btn pri" href="../">去求职主页<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7"/><path d="M8 7h9v9"/></svg></a>
+        <button class="btn" type="button" id="again" data-en="Fly again">再飞一次</button>
+        <a class="btn" href="a/" data-en="All 20 essays (in Chinese)">全部 20 篇文章</a>
+        <a class="btn pri" href="../" data-en-href="../en/"><span data-en="Go to résumé">去求职主页</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7"/><path d="M8 7h9v9"/></svg></a>
       </div>
     </div>
   </section>
-  <footer class="foot"><div class="wrap"><span>内容来自他的公众号文章和微信读书记录。引文都是原话，点开会跳到原文那一句。</span></div></footer>
+  <footer class="foot"><div class="wrap"><span data-en="Content comes from his WeChat articles and WeChat Read history. Quotes are translated from his original Chinese, shown beneath each one; click to jump to that sentence in the original.">内容来自他的公众号文章和微信读书记录。引文都是原话，点开会跳到原文那一句。</span></div></footer>
 </main>
 
 <script src="data.js?v=3"></script>
-<script src="fold.js?v=4"></script>
-<script src="apeng.js?v=1"></script>
+<script src="en.js?v=1"></script>
+<script src="fold.js?v=5"></script>
+<script src="apeng.js?v=3"></script>
+<script>
+// 中 / EN 切换：记下访客的选择，原地刷新
+document.getElementById('lng').addEventListener('click', function(){ if(window.setSiteLang) setSiteLang(window.SITE_LANG === 'en' ? 'zh' : 'en'); location.reload(); });
+</script>
 </body>
 </html>

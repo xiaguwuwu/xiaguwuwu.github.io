@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en" data-lang-page="en" data-alt="../../cases/queue-eta.html">
+<head>
+<meta charset="utf-8">
+<script src="../../shared/lang.js?v=1"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Free-Queue Wait Estimates | Pengfei Chen</title>
+<meta name="description" content="The first two fixes changed how the wait was displayed; the real problem was that the first estimate was too optimistic. After switching to a conservative range, the promise held 92% of the time on monthly plans and 100% on annual.">
+<link rel="canonical" href="https://musteats.top/en/cases/queue-eta.html">
+<link rel="alternate" hreflang="zh-CN" href="https://musteats.top/cases/queue-eta.html">
+<link rel="alternate" hreflang="en" href="https://musteats.top/en/cases/queue-eta.html">
+<link rel="alternate" hreflang="x-default" href="https://musteats.top/cases/queue-eta.html">
+<script>/* 从深色版点进来就用深色（首页和深色版会记下访客在看哪一版） */try{if(localStorage.getItem('resume-theme')==='dark')document.documentElement.classList.add('dark')}catch(e){}</script>
+<link rel="icon" href="/assets/favicon.svg?v=2" type="image/svg+xml">
+<link rel="icon" href="/assets/favicon-32.png?v=2" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png?v=2">
+<link rel="stylesheet" href="../../shared/base.css?v=32">
+<link rel="stylesheet" href="../../shared/case.css?v=1">
+</head>
+<body>
+<header class="top"><div class="wrap">
+  <a class="brand" href="../index.html" aria-label="Back to home"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M14.6 6.2c.4-2.9 2.9-4.3 4.3-3.3-1.4.5-2 1.9-1.5 3.3z"/><ellipse cx="16" cy="18" rx="10.5" ry="11.5"/><circle class="b-eye" cx="12.3" cy="15.6" r="2.1"/><circle class="b-eye" cx="19.7" cy="15.6" r="2.1"/><path class="b-beak" d="M14.1 19.6h3.8l-1.9 2.5z"/></svg></a><span class="sep" aria-hidden="true"></span>
+  <nav aria-label="Page navigation"><a class="on" href="../index.html#projects">Projects</a><a href="../index.html#works">Work</a><a href="../index.html#exp-sec">Experience</a></nav>
+  <a class="lang-t" href="../../cases/queue-eta.html" hreflang="zh-CN" lang="zh-CN" title="中文" aria-label="切换到中文">中</a>
+  <a class="top-cta" href="../index.html#apply">Contact<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7"/><path d="M8 7h9v9"/></svg></a></div></header>
+<main class="case wrap">
+  <a class="back" href="../index.html#projects"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>Back to projects</a>
+  <h1>Free-Queue Wait Estimates</h1>
+  <dl class="meta"><div><dt>Product</dt><dd>VerseIn</dd></div><div><dt>Role</dt><dd>Product Manager</dd></div><div><dt>Dates</dt><dd>2026.09 – 2026.10</dd></div></dl>
+  <section><h2>Project</h2><p>Subscribers can generate videos for free but have to queue. Releases are throttled by a daily budget and light users go first, so the queue is not first come, first served.</p><div class="tbl"><table><thead><tr><th>Version</th><th>Change</th><th>Result</th></tr></thead><tbody><tr><td>V1</td><td>Showed “N people ahead of you”</td><td>Later users legitimately jumped ahead, the number went up, and users said “this is a scam”</td></tr><tr><td>V2</td><td>Removed the count; time left only goes down</td><td>“Estimated 5 hours, and after 5 hours there’s still 1 hour left”</td></tr></tbody></table></div></section>
+  <section><h2>Process</h2><ul><li><b>Fill in the data</b>: the old dashboard only counted jobs that were released, so people who gave up were not in the denominator. First added tracking: promised time, actual release time, and when users left the queue and where they went.</li><li><b>Find the cause</b>: compared promise with reality across a week of 692 release records. The p90 actual wait was 3.1× the promise and 30% of jobs were more than an hour late; of users who switched to credits, 85% decided within 5 minutes of seeing the estimate.</li><li><b>Look around</b>: studied 7 products. Those with minute-level waits show no time at all, those that show a queue position all ran into trouble, and if you do show a number, too long is safer than too short.</li><li><b>Design</b>: show only a range, with the upper bound calibrated at p90; once shown it can only narrow, never grow; on overrun say so plainly and offer to keep waiting or switch to credits; show the range before submission.</li></ul></section>
+  <section><h2>Results</h2><ul class="result"><li>After launch the upper bound held <b>92%</b> of the time on monthly plans and <b>100%</b> on annual.</li><li>Better display only cuts complaints; shorter waits need a bigger budget or moving expensive models out of the free channel. Both were raised with the business side at the same time.</li></ul></section>
+  <nav class="pager" aria-label="Pages"><a href="pricing-unlimited.html"><span>Previous</span>Pricing and Subscription Benefits</a><a href="growth-landing.html"><span>Next</span>Ad Landing Pages and New-User Conversion</a></nav>
+</main>
+<script>
+// 深色时，回首页的链接都指向深色版；点语言按钮记下访客的选择；滚动后顶栏出现底线
+(function(){
+  if(document.documentElement.classList.contains('dark')) document.querySelectorAll('a[href^="../index.html"]').forEach(function(a){ a.setAttribute('href', a.getAttribute('href').replace('../index.html', '../dark/index.html')); });
+  var lt = document.querySelector('.lang-t');
+  if(lt) lt.addEventListener('click', function(){ if(window.setSiteLang) setSiteLang(lt.getAttribute('hreflang') === 'en' ? 'en' : 'zh'); });
+  var top = document.querySelector('.top'), f = function(){ top.classList.toggle('stuck', scrollY > 8); };
+  addEventListener('scroll', f, {passive: true}); f();
+})();
+</script>
+</body>
+</html>

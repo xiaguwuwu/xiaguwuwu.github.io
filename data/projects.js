@@ -2,7 +2,7 @@
 // 规则：只写 ~/Documents/Zuler 原始材料里查得到的事实；没上线的不写成上线，判断不写成结论。
 window.PROJECTS = {
   template: {
-    title: '趋势与数据驱动的产品运营', org: 'VerseIn', time: '2026.06 – 11', role: '产品负责人', href: 'cases/template-ops.html',
+    title: '趋势与数据驱动的产品运营', org: 'VerseIn', time: '2026.06 – 11', role: '产品经理', href: 'cases/template-ops.html',
     line: '相近模板<mark>分享率 51.6% 对 19.5%</mark>，归因收入差 6 倍；首页排序改成公式，每两周重排一次',
     bg: '首页近 600 个模板，新模板选题依赖经验判断，首页排序由人工决定，而首行与后排的曝光相差<mark>约 13 倍</mark>。',
     goal: '用<mark>趋势监测</mark>指导选题，用埋点数据驱动模板迭代和首页排序。',
@@ -10,10 +10,10 @@ window.PROJECTS = {
               '把<mark>后台配置、埋点漏斗和视频抽帧</mark>放在一起，按玩法分组对比',
               '把首页排序写成加权公式，每两周用脚本重排并写入生产'],
     result: ['两个相近模板分享率 <b>51.6%</b> 对 <b>19.5%</b>，归因收入差 <b>6</b> 倍；抽帧对比后，唯一的差别是<mark>小人会不会对用户有反应</mark>',
-             '沉淀 4 条选题和定价规则，首页排序变成可复跑、可复核的流程']
+             '总结出 4 条选题和定价规则，首页排序变成可复跑、可复核的流程']
   },
   pricing: {
-    title: '定价与订阅权益', org: 'VerseIn', time: '2026.06 – 10', role: '产品负责人', href: 'cases/pricing-unlimited.html',
+    title: '定价与订阅权益', org: 'VerseIn', time: '2026.06 – 10', role: '产品经理', href: 'cases/pricing-unlimited.html',
     line: '统一多家上游的<mark>成本口径</mark>做定价；参考 9 家竞品设计无限生成权益，迭代三轮',
     bg: '接入多家视频模型上游，计费单位不一（Credits、秒、条），后台只有<mark>单一金币字段</mark>，售价与成本无法对齐；订阅需要「无限生成」作为卖点，但视频生成成本高。',
     goal: '<mark>统一成本口径</mark>和定价结构，设计成本可控的无限生成权益。',
@@ -24,7 +24,7 @@ window.PROJECTS = {
              '无限生成权益上线后，按埋点数据迭代了 <b>3</b> 轮需求']
   },
   queue: {
-    title: '免费排队预计时间', org: 'VerseIn', time: '2026.09 – 10', role: '产品负责人', href: 'cases/queue-eta.html',
+    title: '免费排队预计时间', org: 'VerseIn', time: '2026.09 – 10', role: '产品经理', href: 'cases/queue-eta.html',
     line: '用 692 条放行记录重新校准，上线后<mark>区间上限达成率月包 92%、年包 100%</mark>',
     bg: '免费生成需要排队，放行按每日预算节流、用得少的人优先，并非先来先到；前两版分别展示前方人数和剩余时间，都被用户认为是<mark>「骗局」</mark>。',
     goal: '让预计时间<mark>可信</mark>：展示的区间尽量兑现，超时如实说明。',
@@ -34,7 +34,7 @@ window.PROJECTS = {
     result: ['10 月 22 日上线生产，区间上限达成率月包 <b>92%</b>、年包 <b>100%</b>']
   },
   growth: {
-    title: '投放落地页与新人转化', org: 'VerseIn', time: '2026.10 – 11', role: '产品负责人', href: 'cases/growth-landing.html',
+    title: '投放落地页与新人转化', org: 'VerseIn', time: '2026.10 – 11', role: '产品经理', href: 'cases/growth-landing.html',
     line: '<mark>第一批落地页已上线</mark>，运营在后台自建；查出邮箱注册会丢失约 75% 的投放来源',
     bg: '投放团队提供一批长尾搜索词，但每个落地页都要<mark>开发排期发版</mark>；注册环节来源归因丢失，新人从访客到付费的链路存在断点。',
     goal: '落地页改为<mark>后台可配置</mark>，补齐来源归因，理顺新人转化链路。',
@@ -97,7 +97,7 @@ window.CHARTS = {
   template: [
     { type: 'pair', title: '两个相近模板：同模型、同输入，A 还贵 50%', series: ['A 手指戳小人', 'B 小人站在掌心'], unit: '%',
       rows: [['点击率', 13.3, 9.6], ['分享率', 51.6, 19.5]] },
-    { type: 'stats', items: [['6 倍', '归因收入，A 对 B'], ['4 条', '沉淀的选题和定价规则'], ['近 600', '个模板每两周按公式重排']] }
+    { type: 'stats', items: [['6 倍', '归因收入，A 对 B'], ['4 条', '总结出的选题和定价规则'], ['近 600', '个模板每两周按公式重排']] }
   ],
   pricing: [
     { type: 'flow', title: '后台定价结构', op: '×', steps: ['基准价', '清晰度倍率', '时长倍率'], end: '售价' },
@@ -123,7 +123,7 @@ window.CHARTS = {
   ]
 };
 
-// 经历地图：城市按真实经纬度摆放，不画国界（境内发布的中国地图须用审图号底图，这里只用经纬网格）。
+// 经历地图：城市按真实经纬度摆放，不画国界和省界（境内公开的中国地图须用有审图号的标准地图）；底图只有经纬网格和海岸线、长江、黄河示意线，见 shared/extras.js。
 // 路线按时间顺序。
 window.CITIES = {
   '成都': { lon: 104.07, lat: 30.67 },

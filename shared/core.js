@@ -6,6 +6,7 @@
   (window.WORKS || []).forEach(function(w){ W[w.slug] = w; });
   var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
   var $ = function(id){ return document.getElementById(id); };
+  var t = window.t || function(s){ return s; };
 
   var ICON = {
     template: '<rect width="18" height="7" x="3" y="3" rx="1"/><rect width="9" height="7" x="3" y="14" rx="1"/><rect width="5" height="7" x="16" y="14" rx="1"/>',
@@ -43,8 +44,8 @@
   function setPanel(k){
     picked = k; var m = model(k), p = P[k];
     if(pick) pick.innerHTML = mrow(m, '<span class="chev">' + svg('chev') + '</span>');
-    if(brief) brief.innerHTML = kv([['背景', p.bg], ['目标', p.goal]]);
-    if(params) params.innerHTML = kv([['产品', p.org], ['角色', p.role], ['时间', fullTime(p.time)]]);
+    if(brief) brief.innerHTML = kv([[t('背景'), p.bg], [t('目标'), p.goal]]);
+    if(params) params.innerHTML = kv([[t('产品'), p.org], [t('角色'), p.role], [t('时间'), fullTime(p.time)]]);
     if(menu) menu.querySelectorAll('[role=option]').forEach(function(o){ o.setAttribute('aria-selected', o.dataset.k === k ? 'true' : 'false'); });
     Core.onPick.forEach(function(f){ f(k); });
     arm(brief);
@@ -105,7 +106,7 @@
         h += '<div class="ch-flow">' + c.steps.map(function(x){ return '<span class="node">' + x + '</span>'; }).join(op) +
           (c.end ? '<i class="op">=</i><span class="node end">' + c.end + '</span>' : '') + '</div>';
       } else if(c.type === 'status'){
-        h += '<ul class="ch-status">' + c.items.map(function(x){ var on = x[1] === '已上线';
+        h += '<ul class="ch-status">' + c.items.map(function(x){ var on = x.length > 2 ? !!x[2] : x[1] === '已上线';
           return '<li class="' + (on ? 'on' : '') + '"><i aria-hidden="true"></i><span>' + x[0] + '</span><em>' + x[1] + '</em></li>'; }).join('') + '</ul>';
       }
       return '<div class="ch ch-' + c.type + '-b">' + h + '</div>';
@@ -117,10 +118,10 @@
   function render(k, animate){
     var p = P[k], m = model(k);
     out.innerHTML =
-      '<div class="o-head"><span class="o-id">' + pid(k) + '</span><a class="go" href="' + BASE + p.href + '" aria-label="读完整案例：' + p.title + '" title="读完整案例"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7"/><path d="M8 7h9v9"/></svg></a></div>' +
+      '<div class="o-head"><span class="o-id">' + pid(k) + '</span><a class="go" href="' + BASE + p.href + '" aria-label="' + t('读完整案例：') + p.title + '" title="' + t('读完整案例') + '"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7"/><path d="M8 7h9v9"/></svg></a></div>' +
       '<div class="o-body"><h3>' + p.title + '</h3>' +
-        '<p class="o-lab">过程</p><ol class="o-steps">' + li(p.process, true) + '</ol>' +
-        '<p class="o-lab">结果</p><div class="o-res">' + chartHTML(CH[k]) + '</div>' +
+        '<p class="o-lab">' + t('过程') + '</p><ol class="o-steps">' + li(p.process, true) + '</ol>' +
+        '<p class="o-lab">' + t('结果') + '</p><div class="o-res">' + chartHTML(CH[k]) + '</div>' +
         '</div>';
     out.dataset.k = k;
     if(hist) hist.querySelectorAll('.hist').forEach(function(h){ h.setAttribute('aria-pressed', h.dataset.k === k ? 'true' : 'false'); });
@@ -146,8 +147,8 @@
       return '<li class="pj"><button class="pj-h" type="button" aria-expanded="false" aria-controls="pj-' + k + '">' +
         '<span class="pj-n">' + String(n + 1).padStart(2, '0') + '</span><span class="pj-t">' + p.title + '</span><span class="pj-l">' + p.line + '</span>' +
         '<span class="pj-w">' + (n && P[window.PROJECT_ORDER[n - 1]].org === p.org ? '' : '<span>' + p.org + '</span>') + '<time>' + fullTime(p.time) + '</time></span>' + svg('plus', 'pj-x') + '</button>' +
-        '<div class="pj-b" id="pj-' + k + '" hidden><dl><dt>背景</dt><dd>' + p.bg + '</dd><dt>目标</dt><dd>' + p.goal + '</dd><dt>过程</dt><dd><ul>' + li(p.process) + '</ul></dd><dt>结果</dt><dd class="pj-ch">' + chartHTML(CH[k]) + '</dd></dl>' +
-        '<a class="go pj-go" href="' + BASE + p.href + '" aria-label="读完整案例：' + p.title + '" title="读完整案例"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7"/><path d="M8 7h9v9"/></svg></a></div></li>'; }).join('');
+        '<div class="pj-b" id="pj-' + k + '" hidden><dl><dt>' + t('背景') + '</dt><dd>' + p.bg + '</dd><dt>' + t('目标') + '</dt><dd>' + p.goal + '</dd><dt>' + t('过程') + '</dt><dd><ul>' + li(p.process) + '</ul></dd><dt>' + t('结果') + '</dt><dd class="pj-ch">' + chartHTML(CH[k]) + '</dd></dl>' +
+        '<a class="go pj-go" href="' + BASE + p.href + '" aria-label="' + t('读完整案例：') + p.title + '" title="' + t('读完整案例') + '"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7"/><path d="M8 7h9v9"/></svg></a></div></li>'; }).join('');
     arm(plist);
     plist.addEventListener('click', function(e){
       var h = e.target.closest('.pj-h'); if(!h) return;
@@ -172,9 +173,9 @@
           '<span class="sp-r">R' + String(w.rounds).padStart(2, '0') + '</span><span class="sp-t">' + w.title + '</span><span class="sp-c">' + w.catName + '</span></button>' +
         '<div class="leaf" id="leaf-' + w.slug + '"><div class="cover"></div>' +
           '<div class="page"><p class="pg-c">' + w.catName + '</p><h3>' + w.title + '</h3>' +
-          '<dl class="pg-m"><dt>模型</dt><dd>' + w.model + '</dd><dt>迭代</dt><dd>' + w.rounds + ' 轮定稿</dd></dl>' +
+          '<dl class="pg-m"><dt>' + t('模型') + '</dt><dd>' + w.model + '</dd><dt>' + t('迭代') + '</dt><dd>' + t('{n} 轮定稿').replace('{n}', w.rounds) + '</dd></dl>' +
           (w.note ? '<p class="pg-n">' + w.note + '</p>' : '') +
-          '<button class="pg-p" type="button" data-open="' + w.slug + '">看输入和提示词</button></div></div></div>';
+          '<button class="pg-p" type="button" data-open="' + w.slug + '">' + t('看输入和提示词') + '</button></div></div></div>';
     }).join('');
     function closeBook(bk){
       bk.classList.remove('open'); bk.querySelector('.spine').setAttribute('aria-expanded', 'false');
@@ -211,10 +212,10 @@
   function esc(s){ return String(s).replace(/[&<>"]/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
   function open(slug){
     var w = W[slug]; if(!w || !modal) return; last = document.activeElement;
-    sheet.innerHTML = '<button class="x" type="button" aria-label="关闭">×</button><h3>' + esc(w.title) + '</h3><p class="meta">' + esc(w.catName) + '，' + esc(w.model) + '，迭代 ' + w.rounds + ' 轮定稿</p>' +
-      '<div class="pipe"><div><div class="lab">输入</div>' + (w.input ? '<img src="' + BASE + w.input + '" alt="输入图">' : '<div class="none">只用文字提示词</div>') + '</div>' +
-      '<div><div class="lab">输出</div><video src="' + BASE + w.video + '" poster="' + BASE + w.poster + '" muted loop playsinline autoplay controls></video></div>' +
-      '<div class="info"><div class="lab">我写的提示词</div><div class="prompt">' + esc(w.prompt) + '</div>' + (w.note ? '<p class="note">' + esc(w.note) + '</p>' : '') + '</div></div>';
+    sheet.innerHTML = '<button class="x" type="button" aria-label="' + t('关闭') + '">×</button><h3>' + esc(w.title) + '</h3><p class="meta">' + esc(w.catName) + t('，') + esc(w.model) + t('，') + t('迭代 {n} 轮定稿').replace('{n}', w.rounds) + '</p>' +
+      '<div class="pipe"><div><div class="lab">' + t('输入') + '</div>' + (w.input ? '<img src="' + BASE + w.input + '" alt="' + t('输入图') + '">' : '<div class="none">' + t('只用文字提示词') + '</div>') + '</div>' +
+      '<div><div class="lab">' + t('输出') + '</div><video src="' + BASE + w.video + '" poster="' + BASE + w.poster + '" muted loop playsinline autoplay controls></video></div>' +
+      '<div class="info"><div class="lab">' + t('我写的提示词') + '</div><div class="prompt">' + esc(w.prompt) + '</div>' + (w.note ? '<p class="note">' + esc(w.note) + '</p>' : '') + '</div></div>';
     modal.classList.add('open'); document.body.style.overflow = 'hidden';
     var x = sheet.querySelector('.x'); x.addEventListener('click', close); x.focus();
   }
@@ -229,11 +230,11 @@
   document.querySelectorAll('[data-copy]').forEach(function(b){
     var label = b.getAttribute('aria-label'), icon = b.innerHTML;
     b.addEventListener('click', function(){
-      var t = b.dataset.copy;
-      function done(){ b.innerHTML = svg('tick'); b.setAttribute('aria-label', '已复制'); setTimeout(function(){ b.innerHTML = icon; b.setAttribute('aria-label', label); }, 1600); }
-      if(navigator.clipboard && window.isSecureContext) navigator.clipboard.writeText(t).then(done, function(){ window.prompt('复制这个邮箱', t); });
-      else { var ta = document.createElement('textarea'); ta.value = t; ta.style.cssText = 'position:fixed;opacity:0'; document.body.appendChild(ta); ta.select();
-        try { document.execCommand('copy'); done(); } catch(err) { window.prompt('复制这个邮箱', t); } ta.remove(); }
+      var addr = b.dataset.copy;
+      function done(){ b.innerHTML = svg('tick'); b.setAttribute('aria-label', t('已复制')); setTimeout(function(){ b.innerHTML = icon; b.setAttribute('aria-label', label); }, 1600); }
+      if(navigator.clipboard && window.isSecureContext) navigator.clipboard.writeText(addr).then(done, function(){ window.prompt(t('复制这个邮箱'), addr); });
+      else { var ta = document.createElement('textarea'); ta.value = addr; ta.style.cssText = 'position:fixed;opacity:0'; document.body.appendChild(ta); ta.select();
+        try { document.execCommand('copy'); done(); } catch(err) { window.prompt(t('复制这个邮箱'), addr); } ta.remove(); }
     });
   });
 
@@ -303,13 +304,18 @@
   }
 })();
 
-// 浅色 A 版 ↔ 深色 C 版：跳过去时带上当前所在的那一节（另一版没有这一节就回到顶部）
+// 浅色 A 版 ↔ 深色 C 版、中文 ↔ 英文：跳过去时带上当前所在的那一节（另一版没有这一节就回到顶部）
 (function(){
-  var t = document.querySelector('.theme-t'); if(!t) return;
-  t.addEventListener('click', function(){
+  function here(){
     var cur = '';
-    ['projects', 'works', 'exp-sec', 'apply'].forEach(function(id){ var el = document.getElementById(id); if(el && el.getBoundingClientRect().top < innerHeight * .4) cur = id; });
-    t.href = t.getAttribute('href').split('#')[0] + (cur ? '#' + cur : '');
+    ['projects', 'works', 'exp-sec', 'faq', 'apply'].forEach(function(id){ var el = document.getElementById(id); if(el && el.getBoundingClientRect().top < innerHeight * .4) cur = id; });
+    return cur ? '#' + cur : '';
+  }
+  document.querySelectorAll('.theme-t, .lang-t').forEach(function(a){
+    a.addEventListener('click', function(){
+      if(a.classList.contains('lang-t') && window.setSiteLang) setSiteLang(a.getAttribute('hreflang') === 'en' ? 'en' : 'zh');
+      a.href = a.getAttribute('href').split('#')[0] + here();
+    });
   });
 })();
 

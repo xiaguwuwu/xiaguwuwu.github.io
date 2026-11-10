@@ -1,18 +1,27 @@
 <!doctype html>
-<html lang="zh-CN">
+<html lang="zh-CN" data-lang-page="zh" data-alt="../en/cases/torouter.html">
 <head>
 <meta charset="utf-8">
+<script src="../shared/lang.js?v=1"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>ToRouter 激活与留存方案｜陈鹏飞</title>
 <meta name="description" content="为大模型 API 网关设计激活到增长的四层方案，并用 AI 编程上线官网需求。">
+<link rel="canonical" href="https://musteats.top/cases/torouter.html">
+<link rel="alternate" hreflang="zh-CN" href="https://musteats.top/cases/torouter.html">
+<link rel="alternate" hreflang="en" href="https://musteats.top/en/cases/torouter.html">
+<link rel="alternate" hreflang="x-default" href="https://musteats.top/cases/torouter.html">
 <script>/* 从深色版点进来就用深色（首页和深色版会记下访客在看哪一版） */try{if(localStorage.getItem('resume-theme')==='dark')document.documentElement.classList.add('dark')}catch(e){}</script>
-<link rel="stylesheet" href="../shared/base.css?v=26">
+<link rel="icon" href="/assets/favicon.svg?v=2" type="image/svg+xml">
+<link rel="icon" href="/assets/favicon-32.png?v=2" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png?v=2">
+<link rel="stylesheet" href="../shared/base.css?v=32">
 <link rel="stylesheet" href="../shared/case.css?v=1">
 </head>
 <body>
 <header class="top"><div class="wrap">
   <a class="brand" href="../index.html" aria-label="回到首页"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M14.6 6.2c.4-2.9 2.9-4.3 4.3-3.3-1.4.5-2 1.9-1.5 3.3z"/><ellipse cx="16" cy="18" rx="10.5" ry="11.5"/><circle class="b-eye" cx="12.3" cy="15.6" r="2.1"/><circle class="b-eye" cx="19.7" cy="15.6" r="2.1"/><path class="b-beak" d="M14.1 19.6h3.8l-1.9 2.5z"/></svg></a><span class="sep" aria-hidden="true"></span>
   <nav aria-label="页面导航"><a class="on" href="../index.html#projects">项目</a><a href="../index.html#works">作品</a><a href="../index.html#exp-sec">经历</a></nav>
+  <a class="lang-t" href="../en/cases/torouter.html" hreflang="en" lang="en" title="English" aria-label="Switch to English">EN</a>
   <a class="top-cta" href="../index.html#apply">联系我<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7"/><path d="M8 7h9v9"/></svg></a></div></header>
 <main class="case wrap">
   <a class="back" href="../index.html#projects"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>返回项目列表</a>
@@ -24,9 +33,11 @@
   <nav class="pager" aria-label="翻页"><a href="ai-workflow.html"><span>上一个</span>用 Claude Code 重构产品工作流</a><a href="../index.html#apply"><span>看完了</span>联系我</a></nav>
 </main>
 <script>
-// 深色时，回首页的链接都指向深色版；滚动后顶栏出现底线
+// 深色时，回首页的链接都指向深色版；点语言按钮记下访客的选择；滚动后顶栏出现底线
 (function(){
   if(document.documentElement.classList.contains('dark')) document.querySelectorAll('a[href^="../index.html"]').forEach(function(a){ a.setAttribute('href', a.getAttribute('href').replace('../index.html', '../dark/index.html')); });
+  var lt = document.querySelector('.lang-t');
+  if(lt) lt.addEventListener('click', function(){ if(window.setSiteLang) setSiteLang(lt.getAttribute('hreflang') === 'en' ? 'en' : 'zh'); });
   var top = document.querySelector('.top'), f = function(){ top.classList.toggle('stuck', scrollY > 8); };
   addEventListener('scroll', f, {passive: true}); f();
 })();

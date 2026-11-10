@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en" data-lang-page="en" data-alt="../../cases/growth-landing.html">
+<head>
+<meta charset="utf-8">
+<script src="../../shared/lang.js?v=1"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ad Landing Pages and New-User Conversion | Pengfei Chen</title>
+<meta name="description" content="Made landing pages something ops can configure on their own, then smoothed out the new-user path from visitor to upgrade, one stage at a time.">
+<link rel="canonical" href="https://musteats.top/en/cases/growth-landing.html">
+<link rel="alternate" hreflang="zh-CN" href="https://musteats.top/cases/growth-landing.html">
+<link rel="alternate" hreflang="en" href="https://musteats.top/en/cases/growth-landing.html">
+<link rel="alternate" hreflang="x-default" href="https://musteats.top/cases/growth-landing.html">
+<script>/* 从深色版点进来就用深色（首页和深色版会记下访客在看哪一版） */try{if(localStorage.getItem('resume-theme')==='dark')document.documentElement.classList.add('dark')}catch(e){}</script>
+<link rel="icon" href="/assets/favicon.svg?v=2" type="image/svg+xml">
+<link rel="icon" href="/assets/favicon-32.png?v=2" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png?v=2">
+<link rel="stylesheet" href="../../shared/base.css?v=32">
+<link rel="stylesheet" href="../../shared/case.css?v=1">
+</head>
+<body>
+<header class="top"><div class="wrap">
+  <a class="brand" href="../index.html" aria-label="Back to home"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M14.6 6.2c.4-2.9 2.9-4.3 4.3-3.3-1.4.5-2 1.9-1.5 3.3z"/><ellipse cx="16" cy="18" rx="10.5" ry="11.5"/><circle class="b-eye" cx="12.3" cy="15.6" r="2.1"/><circle class="b-eye" cx="19.7" cy="15.6" r="2.1"/><path class="b-beak" d="M14.1 19.6h3.8l-1.9 2.5z"/></svg></a><span class="sep" aria-hidden="true"></span>
+  <nav aria-label="Page navigation"><a class="on" href="../index.html#projects">Projects</a><a href="../index.html#works">Work</a><a href="../index.html#exp-sec">Experience</a></nav>
+  <a class="lang-t" href="../../cases/growth-landing.html" hreflang="zh-CN" lang="zh-CN" title="中文" aria-label="切换到中文">中</a>
+  <a class="top-cta" href="../index.html#apply">Contact<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7"/><path d="M8 7h9v9"/></svg></a></div></header>
+<main class="case wrap">
+  <a class="back" href="../index.html#projects"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>Back to projects</a>
+  <h1>Ad Landing Pages and New-User Conversion</h1>
+  <dl class="meta"><div><dt>Product</dt><dd>VerseIn</dd></div><div><dt>Role</dt><dd>Product Manager</dd></div><div><dt>Dates</dt><dd>2026.10 – 2026.11</dd></div></dl>
+  <section><h2>Project</h2><ul><li>The ads team brought a batch of long-tail search terms, but new landing pages could only be added in code by developers, so every new term needed a dev slot and a release.</li><li>Source attribution got lost, and the path from visitor to paying user broke in several places.</li></ul></section>
+  <section><h2>Process</h2><h3>Landing pages</h3><div class="tbl"><table><thead><tr><th>Page</th><th>Traffic it catches</th><th>How it’s configured</th></tr></thead><tbody><tr><td>Template theme page</td><td>Search terms for a type of effect</td><td>Ops enters a term in the backend and the page is generated</td></tr><tr><td>Model page</td><td>Search terms for a specific model</td><td>Copy, FAQ and examples configured per model</td></tr><tr><td>Long-tail keyword workbench</td><td>Competitor names, curiosity terms</td><td>Generate right on the landing page, routed by balance</td></tr><tr><td>Scenario workbench</td><td>Specific industry scenarios</td><td>Each scenario is a config; new scenarios need no release</td></tr></tbody></table></div><h3>New-user conversion</h3><p>Walked the 5 stages and 20 steps from landing to payment and marked what was hard-coded and what was configurable. Drawing on competitors and e-commerce, listed 33 conversion hooks and ranked 13 for phase one by effort and impact. Three key decisions:</p><ul><li>The first video must be fully payable with the sign-up bonus coins.</li><li>No fake “generating” animation; show a real prompt instead, and submit automatically after sign-in.</li><li>Mechanics are fixed in code; copy, frequency and price live in the backend.</li></ul><h3>Rule conflicts found</h3><div class="tbl"><table><thead><tr><th>Conflict</th><th>Fix</th></tr></thead><tbody><tr><td>The first-month discount required “never paid”, so buying a coin pack removed it for good</td><td>Changed to “never subscribed”</td></tr><tr><td>Email sign-up dropped landing parameters, losing about 75% of source attribution</td><td>Record the first landing page and source; send only real payments back to ad platforms</td></tr><tr><td>The new-user pack sold coins, but free users couldn’t buy coin packs</td><td>Dropped the new-user pack; everything goes through subscriptions</td></tr></tbody></table></div></section>
+  <section><h2>Results</h2><ul class="result"><li>The first theme pages and model pages are live: ops builds them in the backend with no dev slot or release, and FAQs on the first 18 model pages cover 8 languages. The other two page types are still in requirements.</li><li>Found that email sign-up loses about 75% of ad attribution; the fix is in phase one.</li><li>The first-month discount and anti-abuse rules for sign-up coins are live; audience banners on the pricing page and audience filters for promotions are in development.</li></ul></section>
+  <nav class="pager" aria-label="Pages"><a href="queue-eta.html"><span>Previous</span>Free-Queue Wait Estimates</a><a href="ai-workflow.html"><span>Next</span>Rebuilding Product Work with Claude Code</a></nav>
+</main>
+<script>
+// 深色时，回首页的链接都指向深色版；点语言按钮记下访客的选择；滚动后顶栏出现底线
+(function(){
+  if(document.documentElement.classList.contains('dark')) document.querySelectorAll('a[href^="../index.html"]').forEach(function(a){ a.setAttribute('href', a.getAttribute('href').replace('../index.html', '../dark/index.html')); });
+  var lt = document.querySelector('.lang-t');
+  if(lt) lt.addEventListener('click', function(){ if(window.setSiteLang) setSiteLang(lt.getAttribute('hreflang') === 'en' ? 'en' : 'zh'); });
+  var top = document.querySelector('.top'), f = function(){ top.classList.toggle('stuck', scrollY > 8); };
+  addEventListener('scroll', f, {passive: true}); f();
+})();
+</script>
+</body>
+</html>

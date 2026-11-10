@@ -16,6 +16,9 @@
   var ease = function(x){ return x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2; };
   var eout = function(x){ return 1 - Math.pow(1 - x, 3); };
   var PI = Math.PI;
+  // 英文时 me/en.js 先把 story 换成英文、给引文加上 r.en（译文），界面文字查 window.T
+  var t = function(k){ var T = window.T; return T && Object.prototype.hasOwnProperty.call(T, k) ? T[k] : k; };
+  function qh(r){ return r.en ? '“' + esc(r.en) + '”<small class="orig" lang="zh-CN">「' + esc(r.q) + '」</small>' : '「' + esc(r.q) + '」'; }
 
   /* ================= 声音：Web Audio 现场合成，不加载音频文件 ================= */
   var Snd = (function(){
@@ -164,8 +167,8 @@
     g.strokeStyle = 'rgba(120,100,80,.15)'; g.lineWidth = 2;
     for(var y = 236; y < TH - 50; y += 36){ g.beginPath(); g.moveTo(36, y); g.lineTo(TW - 36, y); g.stroke(); }
     g.strokeStyle = 'rgba(255,91,58,.5)'; g.beginPath(); g.moveTo(88, 26); g.lineTo(88, TH - 26); g.stroke();
-    g.fillStyle = '#1d1b1a'; g.font = '600 84px ' + ff; g.fillText('陈鹏飞', 112, 150);
-    g.fillStyle = '#ff5b3a'; g.fillRect(112 + g.measureText('陈鹏飞').width + 10, 132, 15, 15);
+    g.fillStyle = '#1d1b1a'; g.font = '600 84px ' + ff; g.fillText(t('陈鹏飞'), 112, 150);
+    g.fillStyle = '#ff5b3a'; g.fillRect(112 + g.measureText(t('陈鹏飞')).width + 10, 132, 15, 15);
     g.font = '22px ' + ff; g.fillStyle = '#5d564f';
     ME.articles.slice().reverse().forEach(function(a, i){ var t = a.s; while(g.measureText(t).width > TW - 160 && t.length > 2) t = t.slice(0, -2) + '…'; g.fillText(t, 112, 228 + i * 36); });
     g.font = '18px ui-monospace, Menlo, monospace'; g.fillStyle = '#a0968b';
@@ -175,31 +178,31 @@
 
   /* ================= 文字层 ================= */
   var NCH = S.folds.length, COLORS = S.folds.map(function(f){ return f.color; });
-  function cite(r, cls){ return '<a class="' + (cls || 'cite') + '" href="' + esc(r.href) + '">「' + esc(r.q) + '」<span>' + esc(r.s) + ' ↗</span></a>'; }
+  function cite(r, cls){ return '<a class="' + (cls || 'cite') + '" href="' + esc(r.href) + '">' + qh(r) + '<span>' + esc(r.s) + t('（中文）') + ' ↗</span></a>'; }
   $('hero-line').textContent = S.hero.line;
   $('hero-q').outerHTML = cite(S.hero.q);
   $('labels').innerHTML = S.folds.map(function(f, i){
     return '<li style="--c:' + f.color + '"><a href="#ch' + (i + 1) + '" data-i="' + i + '"><b>' + String(i + 1).padStart(2, '0') + '</b>' + esc(f.title) + '</a></li>'; }).join('');
   $('chs').innerHTML = S.folds.map(function(f, i){
     return '<div class="o o-ch" data-s="' + (i + 2) + '" style="--c:' + f.color + '">' +
-      '<p class="kick"><b>折痕 ' + String(i + 1).padStart(2, '0') + '</b>' + esc(f.years) + '</p>' +
+      '<p class="kick"><b>' + t('折痕') + ' ' + String(i + 1).padStart(2, '0') + '</b>' + esc(f.years) + '</p>' +
       '<h2>' + esc(f.title) + '</h2>' +
-      '<p class="ft">从<s>' + esc(f.from) + '</s><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6"/></svg><em>' + esc(f.to) + '</em></p>' +
+      '<p class="ft">' + t('从') + '<s>' + esc(f.from) + '</s><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6"/></svg><em>' + esc(f.to) + '</em></p>' +
       '<ul class="refs">' + f.refs.map(function(r, j){ return '<li><a href="' + esc(r.href) + '" data-c="' + i + '" data-r="' + j + '"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6"/></svg>' + esc(r.s) + '</a></li>'; }).join('') + '</ul>' +
-      '<p class="step">第 ' + (i + 1) + ' 步 · ' + esc(f.step) + '</p>' +
-      '<blockquote class="mq">「' + esc(f.q.q) + '」<a href="' + esc(f.q.href) + '">' + esc(f.q.s) + ' ↗</a></blockquote></div>'; }).join('');
+      '<p class="step">' + t('第 {n} 步 · ').replace('{n}', i + 1) + esc(f.step) + '</p>' +
+      '<blockquote class="mq">' + qh(f.q) + '<a href="' + esc(f.q.href) + '">' + esc(f.q.s) + t('（中文）') + ' ↗</a></blockquote></div>'; }).join('');
   $('ch-spacers').innerHTML = S.folds.map(function(f, i){ return '<section class="s" id="ch' + (i + 1) + '" data-s="' + (i + 2) + '" aria-label="' + esc(f.title) + '"></section>'; }).join('');
   $('wl').innerHTML = S.ways.map(function(w, i){ return '<li data-w="' + i + '"><button type="button" data-w="' + i + '"><b>' + String(i + 1).padStart(2, '0') + '</b>' + esc(w.title) + '</button></li>'; }).join('');
-  $('end-q').textContent = '「' + S.end.q.q + '」';
-  $('end-a').outerHTML = '<a class="cite" href="' + esc(S.end.q.href) + '">' + esc(S.end.q.s) + ' ↗</a>';
+  $('end-q').innerHTML = qh(S.end.q);
+  $('end-a').outerHTML = '<a class="cite" href="' + esc(S.end.q.href) + '">' + esc(S.end.q.s) + t('（中文）') + ' ↗</a>';
 
   var card = {q: $('card-q'), a: $('card-a'), key: ''};
   function showCard(r, key, color){
     if(card.key === key) return; card.key = key;
     $('card').style.setProperty('--c', color || '#ff5b3a');
     $('card').classList.remove('swap'); void $('card').offsetWidth; $('card').classList.add('swap');
-    card.q.textContent = '「' + r.q + '」';
-    card.a.href = r.href; card.a.innerHTML = esc(r.t) + '<span>原文 ↗</span>';
+    card.q.innerHTML = qh(r);
+    card.a.href = r.href; card.a.innerHTML = esc(r.t) + '<span>' + t('原文 ↗') + '</span>';
   }
 
   /* ================= 舞台 ================= */
@@ -463,7 +466,7 @@
   function syncSnd(){
     var on = Snd.on();
     $('snd').setAttribute('aria-pressed', on ? 'true' : 'false');
-    document.querySelectorAll('[data-snd] span').forEach(function(s){ s.textContent = on ? '声音已打开' : '打开声音再往下'; });
+    document.querySelectorAll('[data-snd] span').forEach(function(s){ s.textContent = t(on ? '声音已打开' : '打开声音再往下'); });
     document.body.classList.toggle('snd-on', on);
   }
   function toggleSnd(){ Snd.set(!Snd.on()); syncSnd(); if(Snd.on()) setTimeout(function(){ Snd.crease(); Snd.note(2); }, 60); }
@@ -478,7 +481,7 @@
     var Wd = ME.words, maxN = Wd[0].n, old = ME.articles.slice().reverse(), cur = -1;
     $('cloud').innerHTML = Wd.map(function(w, i){
       var k = Math.sqrt(w.n / maxN);
-      return '<button type="button" data-i="' + i + '" style="--k:' + k.toFixed(3) + ';--d:' + (i * 45) + 'ms">' + esc(w.w) + '<sup>' + w.n + '</sup></button>'; }).join('');
+      return '<button type="button" data-i="' + i + '" style="--k:' + k.toFixed(3) + ';--d:' + (i * 45) + 'ms">' + (w.en ? esc(w.en) + '<small lang="zh-CN">' + esc(w.w) + '</small>' : esc(w.w)) + '<sup>' + w.n + '</sup></button>'; }).join('');
     $('strip').innerHTML = old.map(function(a){ return '<a href="a/' + a.id + '.html" data-id="' + a.id + '" title="' + esc(a.t) + '"><i></i></a>'; }).join('');
     $('strip-a').textContent = (old[0].date || '').slice(0, 7); $('strip-b').textContent = (old[old.length - 1].date || '').slice(0, 7);
     var byId = {}; ME.articles.forEach(function(a){ byId[a.id] = a; });
@@ -489,12 +492,12 @@
       $('strip').querySelectorAll('a').forEach(function(a, j){
         var h = hit[a.dataset.id]; a.style.setProperty('--v', h ? (.18 + .82 * h.n / mx).toFixed(3) : 0); a.style.setProperty('--d', j * 22 + 'ms');
         a.classList.toggle('on', !!h); a.href = h ? h.href : 'a/' + a.dataset.id + '.html';
-        a.title = byId[a.dataset.id].t + (h ? '：' + h.n + ' 次' : '');
+        a.title = byId[a.dataset.id].t + (h ? t('：{n} 次').replace('{n}', h.n) : '');
       });
       var re = new RegExp(w.w.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'g');
-      $('hits').innerHTML = '<li class="sum"><b>「' + esc(w.w) + '」</b>出现 ' + w.n + ' 次，在 ' + w.hits.length + ' 篇文章里</li>' +
-        w.hits.slice().sort(function(a, b){ return b.n - a.n; }).map(function(h, j){ return '<li' + (j >= 5 ? ' class="more"' : '') + '><a href="' + esc(h.href) + '"><span class="n">' + h.n + '</span><span class="hs">…' + esc(h.s).replace(re, '<mark>$&</mark>') + '…</span><span class="t">' + esc(byId[h.id].s) + ' ↗</span></a></li>'; }).join('') +
-        (w.hits.length > 5 ? '<li class="all"><button type="button">看全部 ' + w.hits.length + ' 篇</button></li>' : '');
+      $('hits').innerHTML = '<li class="sum">' + t('<b>{w}</b>出现 {n} 次，在 {m} 篇文章里').replace('{w}', w.en ? '“' + esc(w.en) + '” ' + esc(w.w) : '「' + esc(w.w) + '」').replace('{n}', w.n).replace('{m}', w.hits.length) + '</li>' +
+        w.hits.slice().sort(function(a, b){ return b.n - a.n; }).map(function(h, j){ return '<li' + (j >= 5 ? ' class="more"' : '') + '><a href="' + esc(h.href) + '"><span class="n">' + h.n + '</span><span class="hs" lang="zh-CN">…' + esc(h.s).replace(re, '<mark>$&</mark>') + '…</span><span class="t">' + esc(byId[h.id].s) + ' ↗</span></a></li>'; }).join('') +
+        (w.hits.length > 5 ? '<li class="all"><button type="button">' + t('看全部 {n} 篇').replace('{n}', w.hits.length) + '</button></li>' : '');
       $('hits').classList.remove('open');
     }
     $('cloud').addEventListener('click', function(e){ var b = e.target.closest('button'); if(b){ pick(+b.dataset.i); Snd.note(+b.dataset.i); } });
@@ -509,11 +512,11 @@
   (function(){
     var R = ME.reading, c = $('dots'), g = c.getContext('2d'), pts = [], cw = 0, ch = 0, start = -1, origin = [0, 0];
     var YC = {'2018': '#6f6a64', '2019': '#6f6a64', '2021': '#8f8983', '2022': '#b48cff', '2023': '#4f8cff', '2024': '#2fd3a4', '2025': '#ff5b3a', '2026': '#f5a524'};
-    $('r-h').textContent = R.hours + ' 个小时';
+    $('r-h').textContent = t('{n} 个小时').replace('{n}', R.hours);
     var seq = []; R.years.forEach(function(y){ for(var i = 0; i < Math.round(y.h); i++) seq.push(y.y); });
     $('rfacts').innerHTML = '<div class="leg">' + R.years.filter(function(y){ return Math.round(y.h) > 0; }).map(function(y){ return '<span><i style="background:' + (YC[y.y] || '#8f8983') + '"></i>' + y.y + '<em>' + Math.round(y.h) + '</em></span>'; }).join('') + '</div>' +
-      '<p class="nums"><span><b>' + R.books + '</b>本书</span><span><b>' + R.notes + '</b>条笔记</span><span><b>' + R.days + '</b>天在读</span></p>' +
-      '<p class="top">读得最久：' + R.top.map(function(b){ return '《' + esc(b.t) + '》' + b.h + ' 小时'; }).join(' · ') + '</p>';
+      '<p class="nums"><span><b>' + R.books + '</b>' + t('本书') + '</span><span><b>' + R.notes + '</b>' + t('条笔记') + '</span><span><b>' + R.days + '</b>' + t('天在读') + '</span></p>' +
+      '<p class="top">' + t('读得最久：') + R.top.map(function(b){ return '《' + esc(b.t) + '》' + t('{n} 小时').replace('{n}', b.h); }).join(' · ') + '</p>';
     function layout(){
       var w = c.clientWidth, cols = w < 560 ? 15 : 24, gap = w / cols, rows = Math.ceil(seq.length / cols);
       var d = Math.min(2, devicePixelRatio || 1); cw = w; ch = rows * gap; c.width = w * d; c.height = ch * d; c.style.height = ch + 'px'; g.setTransform(d, 0, 0, d, 0, 0);
