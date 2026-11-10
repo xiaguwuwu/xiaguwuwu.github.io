@@ -71,7 +71,7 @@ window.MODELS = [
   { key: 'template', name: '产品运营', sub: '趋势、埋点、首页排序', icon: 'template', work: 'miniature-poke' },
   { key: 'pricing', name: '定价与权益', sub: '成本口径、订阅权益', icon: 'pricing', work: 'pet-machine' },
   { key: 'growth', name: '投放与增长', sub: '落地页、新人转化', icon: 'growth', work: 'caught-live' },
-  { key: 'ai', name: '搭建 AI 工作流', sub: 'skill 与定时任务', icon: 'ai', work: 'hair-style' }
+  { key: 'ai', name: 'Vibe Coding', sub: 'skill 与定时任务', icon: 'ai', work: 'hair-style' }
 ];
 
 // 项目列表的顺序

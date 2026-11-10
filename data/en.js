@@ -71,7 +71,7 @@
 
   window.MODELS.forEach(function(m){
     var x = {template: ['Product Ops', 'Trends, events, homepage ranking'], pricing: ['Pricing and Benefits', 'Cost basis, subscription benefits'],
-             growth: ['Ads and Growth', 'Landing pages, new-user conversion'], ai: ['AI Workflows', 'Skills and scheduled tasks']}[m.key];
+             growth: ['Ads and Growth', 'Landing pages, new-user conversion'], ai: ['Vibe Coding', 'Skills and scheduled tasks']}[m.key];
     if(x){ m.name = x[0]; m.sub = x[1]; }
   });
 
@@ -171,7 +171,7 @@
     '我是阿鹏，「鹏飞」的鹏。他做产品，我带路。往下滑，我跟着你飞。': 'I’m Peng, the “Peng” in Pengfei: a giant bird from Chinese legend. He builds products, I show people around. Scroll down and I’ll fly along.',
     '护目镜戴好了，随时能起飞。': 'Goggles on. Ready for take-off.',
     '这是他的工作台。左边换一个能力模型，我给你跑一遍对应的项目。': 'This is his workbench. Switch the capability on the left and I’ll run that project for you.',
-    '运营、定价、增长、AI 工作流，四种活儿他都干过。挑一个？': 'Product ops, pricing, growth, AI workflows: he has done all four. Pick one?',
+    '运营、定价、增长、Vibe Coding，四种活儿他都干过。挑一个？': 'Product ops, pricing, growth, vibe coding: he has done all four. Pick one?',
     '6 个项目，点开每个都有数。不信你点。': 'Six projects, and every one opens to real numbers. Go on, open one.',
     '书脊平时是黑白的，碰一下才上色。试试。': 'The spines stay black and white until you touch them. Try it.',
     '那架小飞机飞得没我好看，但路线是对的。': 'That little plane doesn’t fly as nicely as I do, but it has the route right.',
