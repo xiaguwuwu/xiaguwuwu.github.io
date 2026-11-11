@@ -140,22 +140,15 @@
     setPanel(picked); render(picked, false);
   }
 
-  /* ---------- 项目：点开才展开项目、过程、结果 ---------- */
+  /* ---------- 项目：每行直接链到案例页（2026-11-11 起不再展开，背景、过程、图表只在工作台和案例页出现） ---------- */
   var plist = $('plist');
   if(plist){
     plist.innerHTML = window.PROJECT_ORDER.map(function(k, n){ var p = P[k];
-      return '<li class="pj"><button class="pj-h" type="button" aria-expanded="false" aria-controls="pj-' + k + '">' +
+      return '<li class="pj"><a class="pj-h" href="' + BASE + p.href + '" aria-label="' + t('读完整案例：') + p.title + '">' +
         '<span class="pj-n">' + String(n + 1).padStart(2, '0') + '</span><span class="pj-t">' + p.title + '</span><span class="pj-l">' + p.line + '</span>' +
-        '<span class="pj-w">' + (n && P[window.PROJECT_ORDER[n - 1]].org === p.org ? '' : '<span>' + p.org + '</span>') + '<time>' + fullTime(p.time) + '</time></span>' + svg('plus', 'pj-x') + '</button>' +
-        '<div class="pj-b" id="pj-' + k + '" hidden><dl><dt>' + t('背景') + '</dt><dd>' + p.bg + '</dd><dt>' + t('目标') + '</dt><dd>' + p.goal + '</dd><dt>' + t('过程') + '</dt><dd><ul>' + li(p.process) + '</ul></dd><dt>' + t('结果') + '</dt><dd class="pj-ch">' + chartHTML(CH[k]) + '</dd></dl>' +
-        '<a class="go pj-go" href="' + BASE + p.href + '" aria-label="' + t('读完整案例：') + p.title + '" title="' + t('读完整案例') + '"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7"/><path d="M8 7h9v9"/></svg></a></div></li>'; }).join('');
+        '<span class="pj-w">' + (n && P[window.PROJECT_ORDER[n - 1]].org === p.org ? '' : '<span>' + p.org + '</span>') + '<time>' + fullTime(p.time) + '</time></span>' +
+        '<svg class="pj-x" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7"/><path d="M8 7h9v9"/></svg></a></li>'; }).join('');
     arm(plist);
-    plist.addEventListener('click', function(e){
-      var h = e.target.closest('.pj-h'); if(!h) return;
-      var open = h.getAttribute('aria-expanded') !== 'true', b = $(h.getAttribute('aria-controls'));
-      h.setAttribute('aria-expanded', open ? 'true' : 'false'); b.hidden = !open;
-      if(open){ arm(b); if(!reduce) countUp(b, 150); }
-    });
   }
 
   /* ---------- 经历 ---------- */

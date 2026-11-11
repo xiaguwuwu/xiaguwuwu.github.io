@@ -749,3 +749,33 @@ html.mw-lock{overflow:hidden}
 .spin .m-gog{transform:translateY(16.5px)}
 @keyframes mSpin{0%{transform:none}40%{transform:translateY(-16px) rotate(200deg)}80%{transform:translateY(-4px) rotate(360deg)}100%{transform:rotate(360deg)}}
 @media (prefers-reduced-motion:reduce){.spin .m-body{animation:none}}
+
+/* ---------- 2026-11-11 改版：首屏一句定位、三个带数字的结果、简历按钮；项目行直接链到案例页 ---------- */
+.lead{max-width:38em;margin:22px 0 0;font-size:18px;line-height:1.7;color:var(--text);text-wrap:pretty;animation:rise .5s ease both}
+.lead+#idrow{margin-top:22px}
+.cv{display:inline-flex;align-items:center;gap:8px;min-height:48px;padding:0 18px;border:1px solid var(--line);border-radius:999px;background:var(--panel);color:var(--fg);font-size:15px;font-weight:500;text-decoration:none;transition:border-color .2s,transform .2s}
+.cv .i{width:16px;height:16px}
+.cv:hover{border-color:var(--fg);transform:translateY(-1px)}
+.cv:active{transform:scale(.97)}
+.proofs{list-style:none;margin:28px 0 0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border-top:1px solid var(--fg)}
+.proofs li+li{border-left:1px solid var(--line)}
+.proofs a{display:block;height:100%;padding:18px 20px 20px 0;color:inherit;text-decoration:none}
+.proofs li+li a{padding-left:20px}
+.proofs b{display:block;font-family:var(--font-m);font-size:clamp(36px,4.2vw,52px);line-height:1.05;font-weight:500;letter-spacing:-.04em;color:var(--fg);font-variant-numeric:tabular-nums}
+.proofs b i{margin-left:.12em;font:500 .42em/1 var(--font-b);letter-spacing:0;font-style:normal;color:var(--fg)}
+.proofs span{display:block;max-width:22em;margin-top:8px;font-size:14px;line-height:1.6;color:var(--text)}
+.proofs a:hover span{color:var(--fg);text-decoration:underline;text-underline-offset:4px}
+.proofs li{animation:rise .5s ease both}.proofs li:nth-child(2){animation-delay:.08s}.proofs li:nth-child(3){animation-delay:.16s}
+.proofs+.facts{margin-top:0}
+a.pj-h{color:inherit;text-decoration:none;box-sizing:border-box}
+a.pj-h .pj-x{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;transition:transform .25s cubic-bezier(.2,.8,.2,1),color .2s}
+a.pj-h:hover .pj-x{transform:translate(2px,-2px);color:var(--fg)}
+@media (max-width:720px){
+  .lead{font-size:16px}
+  .proofs{grid-template-columns:1fr}
+  .proofs li+li{border-left:0;border-top:1px solid var(--line)}
+  .proofs li+li a{padding-left:0}
+  .proofs a{display:grid;grid-template-columns:5.2em minmax(0,1fr);align-items:center;gap:12px;padding:14px 0}
+  .proofs b{font-size:32px}.proofs span{margin-top:0}
+}
+@media (prefers-reduced-motion:reduce){.lead,.proofs li{animation:none}}

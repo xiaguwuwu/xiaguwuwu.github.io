@@ -1,154 +1,9 @@
-// 三个版本共用：经历地图、吉祥物「阿鹏」。在 core.js 之后加载。
+// 三个版本共用：吉祥物「阿鹏」、个人世界入口（经历地图 2026-11-11 删掉了）。在 core.js 之后加载。
 (function(){
   var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
   var $ = function(id){ return document.getElementById(id); };
   var NS = 'http://www.w3.org/2000/svg';
   var t = window.t || function(s){ return s; }, EN = window.SITE_LANG === 'en';
-
-  /* ---------- 经历地图：中国地图上，飞机按时间飞过每一站；右边是行程单，点城市或行程看经历，可以切回列表 ---------- */
-  var sec = $('exp-sec'), list = $('exp');
-  if(sec && list && window.CITIES && window.ROUTE){
-    var C = window.CITIES, R = window.ROUTE, EXP = window.EXP;
-    // 等距圆柱投影，按北纬 36° 压缩经度。视口固定在成都、西安、杭州、上海这一片。
-    // S 取值让聚焦区在桌面宽度下大约 1 个单位 = 1px，点、字、线的尺寸可以直接按像素写。
-    var K = Math.cos(36 * Math.PI / 180), S = 34, LON0 = 73, LON1 = 136, LAT0 = 3, LAT1 = 54;
-    var VW = Math.round((LON1 - LON0) * K * S), VH = (LAT1 - LAT0) * S;
-    var X = function(lon){ return (lon - LON0) * K * S; }, Y = function(lat){ return (LAT1 - lat) * S; };
-    var FOCUS = [X(101.6), Y(36.4), X(124.2) - X(101.6), Y(28.6) - Y(36.4)], FULL = [0, 0, VW, VH];
-    var vb = function(b){ return b.map(function(v){ return v.toFixed(1); }).join(' '); };
-    var byCity = {}; EXP.forEach(function(e){ (byCity[e.city] = byCity[e.city] || []).push(e); });
-    var stopOrg = function(r){ for(var i = 0; i < EXP.length; i++) if(EXP[i].city === r.city && EXP[i].time.indexOf(r.when) === 0) return EXP[i]; return null; };
-    var PLANE = '<path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z"/>';
-    var TICKET = '<path d="M2 9a3 3 0 0 1 0 6v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2a3 3 0 0 1 0-6V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z"/><path d="M13 5v2"/><path d="M13 17v2"/><path d="M13 11v2"/>';
-
-    var head = sec.querySelector('.sec-h');
-    head.insertAdjacentHTML('beforeend', '<div class="seg" role="tablist" aria-label="' + t('经历的展示方式') + '">' +
-      '<button type="button" role="tab" data-v="map" aria-selected="true">' + t('地图') + '</button><button type="button" role="tab" data-v="list" aria-selected="false">' + t('列表') + '</button></div>');
-    list.insertAdjacentHTML('beforebegin', '<div class="xmap" id="xmap"><div class="xm-stage">' +
-      '<button type="button" class="xm-replay" aria-label="' + t('重播路线') + '" title="' + t('重播路线') + '"><svg viewBox="0 0 24 24" aria-hidden="true">' + TICKET + '</svg></button>' +
-      '</div><div class="xm-side"></div></div>');
-    var map = $('xmap'), stage = map.querySelector('.xm-stage'), side = map.querySelector('.xm-side');
-
-    // 航段：相邻两站之间一段向北拱起的弧线
-    var segs = '';
-    for(var i = 1; i < R.length; i++){
-      var a = C[R[i - 1].city], b = C[R[i].city], x1 = X(a.lon), y1 = Y(a.lat), x2 = X(b.lon), y2 = Y(b.lat);
-      var mx = (x1 + x2) / 2, my = (y1 + y2) / 2, dx = x2 - x1, dy = y2 - y1, len = Math.sqrt(dx * dx + dy * dy), bend = Math.max(9, len * .26);
-      segs += '<path class="xm-seg" d="M' + x1.toFixed(1) + ' ' + y1.toFixed(1) + ' Q' + (mx + dy / len * bend).toFixed(1) + ' ' + (my - dx / len * bend).toFixed(1) + ' ' + x2.toFixed(1) + ' ' + y2.toFixed(1) + '" pathLength="1"/>';
-    }
-    var order = []; R.forEach(function(r){ if(order.indexOf(r.city) < 0) order.push(r.city); });
-    var LBL = {'成都': [0, 26, 'middle'], '西安': [12, 4, 'start'], '上海': [12, -2, 'start'], '杭州': [-10, 14, 'end']};
-    if(EN) LBL['上海'] = [0, -16, 'middle'];  // Shanghai 太长，放右边会被地图边缘截掉，改放在点的正上方
-    var pins = order.map(function(name){
-      var c = C[name], l = LBL[name] || [12, 4, 'start'];
-      return '<g class="xm-pin" tabindex="0" role="button" data-city="' + name + '" aria-label="' + t(name) + t('：') + (byCity[name] || []).map(function(e){ return e.org; }).join(t('、')) + '" transform="translate(' + X(c.lon).toFixed(1) + ' ' + Y(c.lat).toFixed(1) + ')"><g class="pz">' +
-        '<circle class="pr" r="12"/><circle class="pc" r="4.5"/><text class="pn" x="' + l[0] + '" y="' + l[1] + '" text-anchor="' + l[2] + '">' + t(name) + '</text></g></g>';
-    }).join('');
-    stage.insertAdjacentHTML('afterbegin', '<svg class="xm-main" preserveAspectRatio="xMidYMid slice" viewBox="' + vb(FOCUS) + '" style="aspect-ratio:' + FOCUS[2].toFixed(0) + ' / ' + FOCUS[3].toFixed(0) + '" role="img" aria-label="' + t('经历地图：成都、西安、上海、杭州') + '">' +
-      '<g class="xm-land"></g><g class="xm-route">' + segs + '</g>' + pins +
-      '<g class="xm-plane" aria-hidden="true"><g class="pz"><g transform="translate(-11 -11) scale(.92)">' + PLANE + '</g></g></g></svg>');
-    var svg = stage.querySelector('.xm-main'), plane = svg.querySelector('.xm-plane'), segEls = [].slice.call(svg.querySelectorAll('.xm-seg'));
-
-    // 底图是示意图，不是地图（2026-11-10）：不画国界和省界，不读取任何第三方地图数据。
-    // 只有经纬网格，加上手工取点的海岸线、长江、黄河示意线，帮人看出这几座城市的相对位置。坐标是 [经度, 纬度]。
-    var COAST = [[122.4,36.9],[121.6,36.7],[120.9,36.4],[120.5,36.1],[120.2,35.95],[119.6,35.4],[119.25,34.8],[119.9,34.4],[120.3,34.1],[120.6,33.5],[120.9,33.0],[121.0,32.6],[121.4,32.3],[121.9,31.8],[121.5,31.45],[121.95,31.0],[121.9,30.87],[121.4,30.75],[121.0,30.6],[120.6,30.4],[120.3,30.3],[120.7,30.2],[121.2,30.32],[121.75,29.97],[122.1,29.9],[121.95,29.5],[121.9,29.1],[121.6,28.9],[121.7,28.6],[121.6,28.3],[121.2,27.9]];
-    var CHANGJIANG = [[121.9,31.75],[121.0,31.85],[120.85,32.0],[119.45,32.2],[118.75,32.1],[118.35,31.35],[117.05,30.5],[116.0,29.75],[114.3,30.58],[113.1,29.4],[112.2,30.3],[111.3,30.7],[109.5,31.0],[108.4,30.8],[106.55,29.56],[105.4,28.9],[104.6,28.77],[103.6,28.3]];
-    var HUANGHE = [[117.0,36.9],[116.3,36.2],[115.5,35.6],[114.4,34.9],[113.65,34.9],[112.4,34.9],[111.2,34.8],[110.3,34.6],[110.45,35.6],[110.6,36.9]];
-    var smooth = function(pts){  // 过各点中点的二次曲线，把折线磨圆
-      var q = pts.map(function(c){ return [X(c[0]), Y(c[1])]; }), d = 'M' + q[0][0].toFixed(1) + ' ' + q[0][1].toFixed(1);
-      for(var i = 1; i < q.length - 1; i++) d += 'Q' + q[i][0].toFixed(1) + ' ' + q[i][1].toFixed(1) + ' ' + ((q[i][0] + q[i + 1][0]) / 2).toFixed(1) + ' ' + ((q[i][1] + q[i + 1][1]) / 2).toFixed(1);
-      return d + 'L' + q[q.length - 1][0].toFixed(1) + ' ' + q[q.length - 1][1].toFixed(1);
-    };
-    var grid = '', g;
-    for(g = 96; g <= 130; g += 2) grid += 'M' + X(g).toFixed(1) + ' ' + Y(40).toFixed(1) + 'V' + Y(26).toFixed(1);
-    for(g = 26; g <= 40; g += 2) grid += 'M' + X(96).toFixed(1) + ' ' + Y(g).toFixed(1) + 'H' + X(130).toFixed(1);
-    var coast = smooth(COAST);
-    svg.querySelector('.xm-land').innerHTML =
-      '<path class="g-sea" d="' + coast + 'L' + X(130).toFixed(1) + ' ' + Y(27.9).toFixed(1) + 'V' + Y(36.9).toFixed(1) + 'Z"/>' +
-      '<path class="g-grid" d="' + grid + '"/>' +
-      '<path class="g-river" d="' + smooth(CHANGJIANG) + '"/><path class="g-river" d="' + smooth(HUANGHE) + '"/>' +
-      '<path class="g-coast" d="' + coast + '"/>';
-
-    // 右侧：默认是行程单；点城市或行程看那里的经历
-    function itinerary(){
-      side.innerHTML = '<ol class="xs-trip">' + R.map(function(r, n){ var e = stopOrg(r);
-        return '<li><button type="button" data-city="' + r.city + '" data-n="' + n + '"><time>' + r.when + '</time><b>' + t(r.city) + '</b><span>' + (e ? e.org : '') + '</span></button></li>'; }).join('') + '</ol>' +
-        '';
-    }
-    function openCity(name){
-      svg.querySelectorAll('.xm-pin').forEach(function(p){ p.classList.toggle('on', p.dataset.city === name); });
-      side.innerHTML = '<button type="button" class="xs-back">' + t('返回行程') + '</button><p class="xs-city">' + t(name) + '</p>' +
-        (byCity[name] || []).map(function(e){ return '<div class="xc-e"><p class="xc-t">' + e.time + '</p><p class="xc-o">' + e.org + '<span>' + e.role + '</span></p><ul>' +
-          e.items.map(function(t){ return '<li>' + t + '</li>'; }).join('') + '</ul></div>'; }).join('') +
-        '<button type="button" class="xc-list">' + t('在列表里看全部经历') + '</button>';
-      side.classList.remove('pop'); void side.offsetWidth; side.classList.add('pop');
-      if(window.Core && Core.arm) Core.arm(side);
-    }
-    svg.addEventListener('click', function(e){ var p = e.target.closest('.xm-pin'); if(p) openCity(p.dataset.city); });
-    svg.addEventListener('keydown', function(e){ var p = e.target.closest('.xm-pin'); if(p && (e.key === 'Enter' || e.key === ' ')){ e.preventDefault(); openCity(p.dataset.city); } });
-    side.addEventListener('click', function(e){
-      var t = e.target.closest('.xs-trip button'); if(t) openCity(t.dataset.city);
-      if(e.target.closest('.xs-back')){ itinerary(); mark(-1); svg.querySelectorAll('.xm-pin.on').forEach(function(p){ p.classList.remove('on'); }); }
-      if(e.target.closest('.xc-list')) show('list');
-    });
-
-    // 飞机沿航段飞：每段画出尾迹，到站时城市点亮、行程单对应一站高亮
-    var token = 0;
-    function mark(n){ side.querySelectorAll('.xs-trip li').forEach(function(li, i){ li.classList.toggle('now', i === n); li.classList.toggle('done', i < n); }); }
-    function place(path, t){
-      var L = path.getTotalLength(), p = path.getPointAtLength(L * t), q = path.getPointAtLength(Math.min(L, L * t + .5)), o = path.getPointAtLength(Math.max(0, L * t - .5));
-      var ang = Math.atan2(q.y - o.y, q.x - o.x) * 180 / Math.PI + 45;
-      plane.setAttribute('transform', 'translate(' + p.x.toFixed(1) + ' ' + p.y.toFixed(1) + ') rotate(' + ang.toFixed(1) + ')');
-    }
-    function hit(city){ var p = svg.querySelector('.xm-pin[data-city="' + city + '"]'); if(p){ p.classList.add('hit'); p.classList.remove('ping'); void p.getBBox(); p.classList.add('ping'); } }
-    function fly(){
-      var my = ++token;
-      if(side.querySelector('.xs-back')) itinerary();
-      svg.querySelectorAll('.xm-pin').forEach(function(p){ p.classList.remove('hit', 'ping'); });
-      segEls.forEach(function(s){ s.style.strokeDashoffset = 1; });
-      if(reduce){ segEls.forEach(function(s){ s.style.strokeDashoffset = 0; }); order.forEach(hit); place(segEls[segEls.length - 1], 1); mark(R.length - 1); return; }
-      map.classList.add('flying'); hit(R[0].city); mark(0);
-      var i = 0;
-      (function leg(){
-        if(my !== token) return;
-        if(i >= segEls.length){ map.classList.remove('flying'); return; }
-        var path = segEls[i], dur = Math.min(1700, Math.max(900, path.getTotalLength() * 4.2)), t0 = null;
-        requestAnimationFrame(function step(ts){
-          if(my !== token) return;
-          if(!t0) t0 = ts; var k = Math.min(1, (ts - t0) / dur), e = k < .5 ? 2 * k * k : 1 - Math.pow(-2 * k + 2, 2) / 2;
-          path.style.strokeDashoffset = 1 - e; place(path, e);
-          if(k < 1) requestAnimationFrame(step);
-          else { i++; hit(R[i].city); mark(i); setTimeout(leg, 380); }
-        });
-      })();
-    }
-    itinerary(); place(segEls[0], 0);
-    map.querySelector('.xm-replay').addEventListener('click', fly);
-
-    // 底图改成示意图后视口固定在这几座城市，不再有从整张地图推近的开场；zoomIn 直接起飞
-    var zoomed = true;
-    function zoomIn(then){
-      if(zoomed){ then(); return; }
-      zoomed = true; var t0 = null, dur = 1400;
-      requestAnimationFrame(function step(ts){
-        if(!t0) t0 = ts; var k = Math.min(1, (ts - t0) / dur), e = 1 - Math.pow(1 - k, 3);
-        svg.setAttribute('viewBox', vb(FULL.map(function(v, i){ return v + (FOCUS[i] - v) * e; })));
-        if(k < 1) requestAnimationFrame(step); else setTimeout(then, 200);
-      });
-    }
-
-    var tabs = head.querySelectorAll('.seg button');
-    function show(v){
-      tabs.forEach(function(t){ t.setAttribute('aria-selected', t.dataset.v === v ? 'true' : 'false'); });
-      map.hidden = v !== 'map'; list.hidden = v !== 'list';
-      if(v === 'map') zoomIn(fly); else token++;
-    }
-    tabs.forEach(function(t){ t.addEventListener('click', function(){ show(t.dataset.v); }); });
-    list.hidden = true;
-    if('IntersectionObserver' in window){
-      var mo = new IntersectionObserver(function(es){ if(es[0].isIntersecting){ setTimeout(function(){ zoomIn(fly); }, 300); mo.disconnect(); } }, {threshold: .35}); mo.observe(map);
-    } else zoomIn(fly);
-  }
 
   /* ---------- 吉祥物「阿鹏」：名字取自「鹏飞」的鹏。它是这一页的导览：滚到哪个区块就飞过去落在标题旁，落地说一句；点它换一句 ---------- */
   // 每个区块几句话，轮着说。只写页面上有的事实，提到陈鹏飞用「他」；口吻是阿鹏自己的，可以带一点引导。
@@ -158,11 +13,11 @@
     wb: [['这是他的工作台。左边换一个能力模型，我给你跑一遍对应的项目。', [['去看项目', '#projects']]],
          ['运营、定价、增长、Vibe Coding，四种活儿他都干过。挑一个？', [['去看项目', '#projects']]]],
     projects: [['我最喜欢第 3 个：排队时间被用户叫「骗局」，他改完以后月包 92% 说到做到。', [['去看作品', '#works']]],
-               ['6 个项目，点开每个都有数。不信你点。', [['去看作品', '#works']]]],
+               ['6 个项目，每个点进去都是完整案例，有图有数。不信你点。', [['去看作品', '#works']]]],
     works: [['这些视频是他自己写提示词跑出来的。抽一本，提示词夹在里面。', [['去看经历', '#exp-sec']]],
             ['书脊平时是黑白的，碰一下才上色。试试。', [['去看经历', '#exp-sec']]]],
-    'exp-sec': [['成都、西安、杭州、上海，这一路我都跟着飞。点机票再飞一遍。', [['常见问题', '#faq']]],
-                ['那架小飞机飞得没我好看，但路线是对的。', [['常见问题', '#faq']]]],
+    'exp-sec': [['成都、西安、杭州、上海，这一路我都跟着飞。', [['常见问题', '#faq']]],
+                ['本科在电子科大，硕士在西安交大，都是计算机方向。', [['常见问题', '#faq']]]],
     faq: [['常被问到的 8 件事都在这儿，省得你发邮件来问。', [['联系我', '#apply']]],
           ['想知道他有没有技术背景？第 6 条。', [['联系我', '#apply']]]],
     apply: [['都看到这儿了，说明有戏。写封邮件吧，主题和正文他都起好头了。', [['回到顶部', '#top']]],

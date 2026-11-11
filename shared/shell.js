@@ -16,6 +16,15 @@
     ['<path d="m18 16 4-4-4-4"/><path d="m6 8-4 4 4 4"/><path d="m14.5 4-5 16"/>', 'Vibe Coding', 'Claude Code、Codex'],
     ['<path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/>', '城市', '不限，随时到岗']
   ];
+  // 首屏的一句定位和三个结果（2026-11-11）：数字只取案例页已有的，每个链到对应案例
+  var LEAD = '负责过出海 AI 视频产品 VerseIn 的模板运营、定价与订阅、投放增长，以及大模型 API 网关 ToRouter 的激活方案。';
+  var PROOFS = [
+    ['92', '%', '排队预计时间改版后的承诺达成率（月包；年包 100%）', 'cases/queue-eta.html'],
+    ['6', '倍', '两个相近模板的归因收入差，查出原因在互动反应', 'cases/template-ops.html'],
+    ['4', '个', '官网需求，用 Codex 独立开发并上线', 'cases/torouter.html']
+  ];
+  var DOC = '<path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 9H8"/><path d="M16 13H8"/><path d="M16 17H8"/>';
+  var BASE = window.BASE || '', ZH = window.SITE_LANG !== 'en';
   // 投递邮件：主题和正文预先写好，招聘方填上公司和岗位就能发
   var APPLY = 'mailto:xiaguwuwu@gmail.com?subject=' + encodeURIComponent(t('岗位邀约：AI 产品经理')) +
     '&body=' + encodeURIComponent(t('陈鹏飞你好：\n\n我是（公司）的（姓名、职位），想和你聊聊（岗位名称）。\n岗位链接或 JD：\n\n方便的联系时间：\n'));
@@ -24,7 +33,10 @@
   put('idrow',
     '<span class="avatar" aria-hidden="true">' + t('陈') + '</span><div class="nm"><b>' + t('陈鹏飞') + '</b><span>' + t('产品经理') + '</span></div>' +
     '<div class="reach" id="contact"><span class="status"><i aria-hidden="true"></i><span class="shine">' + t('正在找工作') + '</span></span>' +
-    mail('xiaguwuwu@gmail.com', 'Gmail ', true) + mail('534963019@qq.com', 'QQ ', false) + '</div>');
+    mail('xiaguwuwu@gmail.com', 'Gmail ', true) + mail('534963019@qq.com', 'QQ ', false) +
+    (ZH ? '<a class="cv" href="' + BASE + 'resume.html">' + svg(DOC) + '简历</a>' : '') + '</div>');
+  put('lead', t(LEAD));
+  put('proofs', PROOFS.map(function(p){ return '<li><a href="' + BASE + (ZH ? '' : 'en/') + p[3] + '"><b>' + p[0] + '<i>' + t(p[1]) + '</i></b><span>' + t(p[2]) + '</span></a></li>'; }).join(''));
   put('facts', FACTS.map(function(f){ return '<li>' + svg(f[0]) + '<span class="k">' + t(f[1]) + '</span><b>' + t(f[2]) + '</b></li>'; }).join(''));
   put('studio',
     '<div class="panel">' +
