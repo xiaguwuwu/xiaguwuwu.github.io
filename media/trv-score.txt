@@ -1,0 +1,186 @@
+# -*- coding: utf-8 -*-
+"""
+某公开模板站的模板复用价值评分模型 (Template Reuse Value Score, TRV)
+
+站点自带的"最热"排序 = views + likes，浏览量量级是点赞的 100 倍，
+等于只按曝光排序，无法回答"哪个模板值得做进我的产品"。
+本模型用六个维度重新打分。
+"""
+import json, os, math, re
+from collections import Counter, defaultdict
+
+BASE = os.path.dirname(os.path.abspath(__file__))
+items = json.load(open(os.path.join(BASE, 'all_prompts.json'), encoding='utf-8'))
+print('loaded', len(items))
+
+# ---------- 工具 ----------
+def pct_rank(values):
+    """返回 value -> 百分位(0~1) 的映射函数"""
+    s = sorted(values)
+    n = len(s)
+    import bisect
+    def f(v):
+        return bisect.bisect_right(s, v) / n if n else 0.0
+    return f
+
+def months(postedAt):
+    """'5mo' / '12d' / '2y' / '3h' -> 月数"""
+    if not postedAt: return 12.0
+    m = re.match(r'(\d+(?:\.\d+)?)\s*([a-z]+)', str(postedAt).strip().lower())
+    if not m: return 12.0
+    v, u = float(m.group(1)), m.group(2)
+    return {'h': v/720, 'd': v/30, 'w': v/4.3, 'mo': v, 'm': v, 'y': v*12}.get(u, 12.0)
+
+# ---------- 场景分类 ----------
+CATS = [
+    ('人像写真',   r'\bportrait|selfie|headshot|face|her face|his face|posing|model (?:is|stands|sits)|woman|man\b'),
+    ('产品电商',   r'\bproduct|packaging|bottle|skincare|cosmetic|perfume|sneaker|can of|jar|tube|commercial shot|e-?commerce\b'),
+    ('海报排版',   r'\bposter|typograph|magazine cover|editorial layout|album cover|title text|headline|infographic|layout\b'),
+    ('品牌视觉',   r'\bbrand|logo|identity|campaign|moodboard|mood board|brand kit\b'),
+    ('3D手办玩具', r'\bfigurine|figure|toy|collectible|blind box|nendoroid|action figure|clay|diorama|miniature\b'),
+    ('动漫插画',   r'\banime|manga|comic|illustration|cartoon|sketch|line art|watercolou?r|painting\b'),
+    ('场景空间',   r'\barchitect|interior|room|house|villa|building|landscape|cityscape|street\b'),
+    ('美食',       r'\bfood|drink|coffee|cake|fruit|dish|cuisine|dessert|cocktail\b'),
+    ('穿搭时尚',   r'\bfashion|outfit|clothing|streetwear|runway|lookbook|garment|dress\b'),
+    ('视频动态',   r'\bvideo|camera (?:pans|dollies|tracks|pushes)|slow motion|loop|animate|motion|cinematic shot moves\b'),
+]
+def categorize(it):
+    t = ((it.get('prompt') or '') + ' ' + (it.get('title') or '')).lower()
+    if it.get('mediaType') == 'video' or it.get('videoUrl'):
+        return '视频动态'
+    for name, pat in CATS:
+        if re.search(pat, t):
+            return name
+    return '其他'
+
+# ---------- D3 可模板化 ----------
+SLOT_PAT = r'\[[^\]]{1,40}\]|\{[^}]{1,40}\}|\bthe (?:product|subject|character|brand|logo)\b|\battached\b|\breference (?:image|photo|sheet)\b|\buploaded\b'
+CONTROL_KW = ['lighting','light','camera','lens','shot','angle','composition','background','color palette',
+              'texture','depth of field','focal','aperture','framing','contrast','shadow','render','style',
+              'aspect ratio','foreground','mood','grain','bokeh','perspective']
+def d3_templatability(it):
+    p = (it.get('prompt') or '')
+    pl = p.lower()
+    s = 0.0
+    # 槽位可替换性
+    slots = len(re.findall(SLOT_PAT, pl))
+    s += min(slots, 4) / 4 * 8
+    # 结构化控制维度覆盖
+    hit = sum(1 for k in CONTROL_KW if k in pl)
+    s += min(hit, 10) / 10 * 7
+    # 长度甜区 350~1400 字符
+    L = len(p)
+    if 350 <= L <= 1400: s += 5
+    elif 200 <= L < 350 or 1400 < L <= 2200: s += 3
+    elif L < 200: s += 0.5
+    else: s += 1
+    return min(s, 20)
+
+# ---------- D4 复现稳定性 ----------
+MODEL_W = {'GPT Image': 1.0, 'Nanobanana': 1.0, 'Nano Banana': 1.0, 'Seedance 2.0': 0.9,
+           'Seedream': 0.9, 'Veo': 0.85, 'Midjourney': 0.6}
+TECH_KW = ['85mm','50mm','35mm','f/1','f/2','f/4','shot on','iso','shutter','golden hour','softbox',
+           'rim light','key light','backlight','three-point','studio light','natural light','35 mm']
+RISK_KW = ['exact text','text reads','spelling','celebrity','logo of','trademark','brand name must']
+def d4_reproducibility(it):
+    p = (it.get('prompt') or '').lower()
+    s = 0.0
+    s += 6 * MODEL_W.get(it.get('model') or '', 0.75)
+    s += min(sum(1 for k in TECH_KW if k in p), 5) / 5 * 5
+    nimg = len(it.get('images') or [])
+    s += 4 if nimg <= 2 else (2 if nimg <= 4 else 0)
+    s -= min(sum(1 for k in RISK_KW if k in p), 3)
+    return max(0.0, min(s, 15))
+
+# ---------- D5 审美当下性（含"去 cartoon 感"真实质感偏好）----------
+REAL_KW = ['photoreal','photo-real','realistic','film grain','analog','candid','35mm film','kodak','portra',
+           'natural skin','skin texture','pores','imperfect','documentary','shot on','unretouched','raw photo',
+           'golden hour','editorial','cinematic','hyperrealistic','lifelike','authentic']
+STALE_KW = ['3d render','octane render','low poly','clay render','plastic','cgi','unreal engine','blender render']
+TREND_KW = ['editorial','minimal','film','grain','muted','pastel','y2k','retro','vintage','moody','soft light',
+            'negative space','collage','risograph','duotone','brutalist','sticker','polaroid']
+def d5_currency(it):
+    p = (it.get('prompt') or '').lower()
+    s = 0.0
+    mo = months(it.get('postedAt'))
+    s += 4 * math.exp(-mo / 9.0)                       # 时间新鲜度
+    s += min(sum(1 for k in REAL_KW if k in p), 4) / 4 * 4   # 真实质感（去 cartoon）
+    s += min(sum(1 for k in TREND_KW if k in p), 3) / 3 * 2  # 当下审美趋势
+    s -= min(sum(1 for k in STALE_KW if k in p), 2) * 1.0
+    return max(0.0, min(s, 10))
+
+# ---------- D6 产品契合度（AI UGC 图/视频产品）----------
+def d6_fit(it, cat):
+    p = (it.get('prompt') or '').lower()
+    s = 0.0
+    if it.get('mediaType') == 'video' or it.get('videoUrl'): s += 4
+    if re.search(r'reference (?:image|photo|sheet)|attached|uploaded|the subject|same person|identity|1:1 match', p):
+        s += 4                                          # 用户可上传自己的照片 -> UGC 核心机制
+    if cat in ('人像写真', '产品电商', '穿搭时尚'): s += 2
+    elif cat in ('海报排版', '品牌视觉', '美食'): s += 1.2
+    return min(s, 10)
+
+# ---------- 计算 ----------
+likes = [max(0, (it.get('stats') or {}).get('likes', 0) or 0) for it in items]
+views = [max(0, (it.get('stats') or {}).get('views', 0) or 0) for it in items]
+f_like = pct_rank([math.log1p(x) for x in likes])
+lrates = [ (l / v) if v > 200 else 0.0 for l, v in zip(likes, views) ]
+f_lrate = pct_rank(lrates)
+# 转发率贝叶斯收缩
+GLOBAL_RT = sum((it.get('stats') or {}).get('retweets', 0) or 0 for it in items) / max(1, sum(likes))
+K = 40
+rtr = []
+for it in items:
+    st = it.get('stats') or {}
+    l = max(0, st.get('likes', 0) or 0); r = max(0, st.get('retweets', 0) or 0)
+    rtr.append((r + K * GLOBAL_RT) / (l + K))
+f_rtr = pct_rank(rtr)
+
+rows = []
+for i, it in enumerate(items):
+    st = it.get('stats') or {}
+    l = max(0, st.get('likes', 0) or 0); v = max(0, st.get('views', 0) or 0); r = max(0, st.get('retweets', 0) or 0)
+    cat = categorize(it)
+    d1 = 18 * f_like(math.log1p(l)) + 12 * f_lrate(lrates[i])
+    d2 = 15 * f_rtr(rtr[i])
+    d3 = d3_templatability(it)
+    d4 = d4_reproducibility(it)
+    d5 = d5_currency(it)
+    d6 = d6_fit(it, cat)
+    total = d1 + d2 + d3 + d4 + d5 + d6
+    rows.append({
+        'id': it['id'], 'title': (it.get('title') or '').strip(), 'cat': cat,
+        'model': it.get('model'), 'media': it.get('mediaType'),
+        'likes': l, 'views': v, 'rt': r,
+        'like_rate': round(lrates[i] * 100, 2), 'rt_rate': round(r / l * 100, 1) if l else 0,
+        'posted': it.get('postedAt'), 'author': (it.get('author') or {}).get('name'),
+        'author_url': (it.get('author') or {}).get('profileUrl'),
+        'D1': round(d1, 1), 'D2': round(d2, 1), 'D3': round(d3, 1),
+        'D4': round(d4, 1), 'D5': round(d5, 1), 'D6': round(d6, 1),
+        'TRV': round(total, 1),
+        'prompt': (it.get('prompt') or '').strip(),
+        'image': it.get('image'), 'video': it.get('videoUrl'),
+        'nimg': len(it.get('images') or []),
+    })
+
+rows.sort(key=lambda x: -x['TRV'])
+json.dump(rows, open(os.path.join(BASE, 'scored.json'), 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
+
+print('\n=== 分类分布 ===')
+for k, c in Counter(r['cat'] for r in rows).most_common():
+    print(f'  {k:8s} {c:5d}')
+print('\n=== 模型分布 ===')
+for k, c in Counter(str(r['model']) for r in rows).most_common():
+    print(f'  {k:15s} {c:5d}')
+print('\n=== 媒体类型 ===')
+for k, c in Counter(str(r['media']) for r in rows).most_common():
+    print(f'  {k:8s} {c:5d}')
+
+print('\n=== TRV Top 30 ===')
+for i, r in enumerate(rows[:30], 1):
+    print(f"{i:2d}. [{r['TRV']:5.1f}] {r['cat']:6s} | {r['model']:12s} | 赞{r['likes']:6d} 看{r['views']:8d} 转{r['rt']:5d} | 赞率{r['like_rate']:5.2f}% 转率{r['rt_rate']:5.1f}% | {r['posted']:>5s} | {r['title'][:52]}")
+
+print('\n=== 站点原生"最热"(views+likes) Top 10 对照 ===')
+byhot = sorted(rows, key=lambda x: -(x['views'] + x['likes']))
+for i, r in enumerate(byhot[:10], 1):
+    print(f"{i:2d}. 看{r['views']:9d} 赞{r['likes']:6d} | TRV={r['TRV']:5.1f} | {r['cat']:6s} | {r['title'][:56]}")

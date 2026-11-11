@@ -15,7 +15,7 @@
 <link rel="icon" href="/assets/favicon-32.png?v=2" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png?v=2">
 <link rel="stylesheet" href="../shared/base.css?v=33">
-<link rel="stylesheet" href="../shared/case.css?v=2">
+<link rel="stylesheet" href="../shared/case.css?v=3">
 </head>
 <body>
 <header class="top"><div class="wrap">
@@ -28,7 +28,7 @@
   <h1>定价与订阅权益</h1>
   <dl class="meta"><div><dt>产品</dt><dd>VerseIn</dd></div><div><dt>角色</dt><dd>产品经理</dd></div><div><dt>时间</dt><dd>2026.06 – 2026.10</dd></div></dl>
   <section><h2>项目</h2><ul><li>VerseIn 同时接了多家视频模型上游，有的按 Credits 计费，有的按秒，有的按条。后台每个模型只有一个「金币消耗」字段，清晰度和时长一变，价格和成本就对不上。</li><li>公司想给订阅用户「无限生成」作为卖点，但视频生成成本很高。</li></ul></section>
-  <section><h2>过程</h2><h3>定价</h3><ul><li>做定价计算器：把各上游的计价折算成统一成本，按模型、清晰度、时长算出保本价和推荐价，改售价能实时看毛利率。</li><li>后台把「金币消耗」改成「基准价格」，再按清晰度和时长倍率换算，可以标记不可用的规格组合。</li></ul><figure class="fig"><div class="calc" id="calc" data-lang="zh"><noscript>这里是一个可以操作的定价计算器演示，需要开启 JavaScript。</noscript></div><figcaption>计算器的演示版，可以直接操作。模型、单价、倍率都是虚构的，只演示算法：先把不同计费单位折成同一个成本口径，再算保本价和目标毛利价。</figcaption></figure><h3>无限生成权益</h3><p>调研 9 家产品的条款和用户反馈，结论是没有一家真无限，都靠并发、模型白名单、规格封顶、时间窗口、渠道排除控成本；用户能接受慢，不能接受不知道自己在等什么。据此设计：</p><ul><li>按订阅档位指定可免费生成的模型。</li><li>清晰度和时长设上限，超出的选项可见但锁定。</li><li>免费任务排队处理，随时可以改用积分立即生成，免费请求绝不静默扣积分。</li></ul><h3>按数据迭代</h3><div class="tbl"><table><thead><tr><th>轮次</th><th>发现的问题</th><th>改动</th></tr></thead><tbody><tr><td>第二轮</td><td>没订阅的用户看不到这个权益，主动曝光为零</td><td>顶栏加权益横幅，通道切换器做成三态</td></tr><tr><td>第三轮</td><td>有权益的用户默认落在积分通道，等于把权益藏起来</td><td>有权益时默认走免费通道；没权益时弹完整定价页；付费墙按触发原因埋点</td></tr></tbody></table></div></section>
+  <section><h2>过程</h2><h3>定价</h3><ul><li>做定价计算器：把各上游的计价折算成统一成本，按模型、清晰度、时长算出保本价和推荐价，改售价能实时看毛利率。</li><li>后台把「金币消耗」改成「基准价格」，再按清晰度和时长倍率换算，可以标记不可用的规格组合。</li></ul><figure class="fig"><div class="calc" id="calc" data-lang="zh"><noscript>这里是一个可以操作的定价计算器演示，需要开启 JavaScript。</noscript></div><figcaption>计算器的演示版，可以直接操作。模型、单价、倍率都是虚构的，只演示算法：先把不同计费单位折成同一个成本口径，再算保本价和目标毛利价。</figcaption></figure><h3>无限生成权益</h3><p>调研 9 家产品的条款和用户反馈，结论是没有一家真无限，都靠并发、模型白名单、规格封顶、时间窗口、渠道排除控成本；用户能接受慢，不能接受不知道自己在等什么。据此设计：</p><ul><li>按订阅档位指定可免费生成的模型。</li><li>清晰度和时长设上限，超出的选项可见但锁定。</li><li>免费任务排队处理，随时可以改用积分立即生成，免费请求绝不静默扣积分。</li></ul><figure class="fig shots narrow"><img src="/media/shots/versein-free-mode.jpg" width="422" height="655" alt="VerseIn 创作页：生成方式在免费生成和积分之间切换" loading="lazy" decoding="async"><img src="/media/shots/versein-unlimited-models.jpg" width="402" height="398" alt="VerseIn 模型列表：可免费生成的模型带无限制标记" loading="lazy" decoding="async"><figcaption>线上界面，2026 年 11 月 11 日截图（VerseIn 于次日停止服务）。左：有权益时默认落在「免费生成」，可以随时切到「积分」，按钮上写明这次是免费还是扣多少积分。右：模型列表里，可以免费生成的模型带「无限制」标记。</figcaption></figure><h3>按数据迭代</h3><div class="tbl"><table><thead><tr><th>轮次</th><th>发现的问题</th><th>改动</th></tr></thead><tbody><tr><td>第二轮</td><td>没订阅的用户看不到这个权益，主动曝光为零</td><td>顶栏加权益横幅，通道切换器做成三态</td></tr><tr><td>第三轮</td><td>有权益的用户默认落在积分通道，等于把权益藏起来</td><td>有权益时默认走免费通道；没权益时弹完整定价页；付费墙按触发原因埋点</td></tr></tbody></table></div></section>
   <section><h2>结果</h2><ul class="result"><li>定价计算器成为公司套餐定价和毛利测算的唯一数据源。</li><li>无限生成权益上线后，按埋点数据迭代了三轮需求；排队体验后来单独做了一轮，见免费排队预计时间。</li></ul></section>
   <nav class="pager" aria-label="翻页"><a href="template-ops.html"><span>上一个</span>趋势与数据驱动的产品运营</a><a href="queue-eta.html"><span>下一个</span>免费排队预计时间</a></nav>
 </main>
